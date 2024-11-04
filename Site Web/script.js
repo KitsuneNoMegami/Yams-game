@@ -143,11 +143,11 @@ function ChangerTheme() {
     const body = document.body; // Récupère l'élément body du document
     const themeToggleButton = document.getElementById("toggleTheme"); // Récupère le bouton de changement de thème
 
-    // Alterne la classe dark-theme pour changer le thème
-    body.classList.toggle("dark-theme");
+    // Alterne la classe theme-sombre pour changer le thème
+    body.classList.toggle("theme-sombre");
 
     // Change le texte du bouton en fonction du thème
-    if (body.classList.contains("dark-theme")) {
+    if (body.classList.contains("theme-sombre")) {
         themeToggleButton.innerText = "☀️"; // Change le texte du bouton en thème clair
     } else {
         themeToggleButton.innerText = "🌙"; // Change le texte du bouton en thème sombre
