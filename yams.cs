@@ -113,6 +113,7 @@ class YAMS {
 
 
 
+
   public static void Main() {
     Random random = new Random();
     int[] T = new int[5] {2,6,4,5,3};
