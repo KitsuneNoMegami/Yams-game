@@ -144,7 +144,15 @@ section button {
 button:hover {
     background-color: #45a049;
 }
+#vueTour {
+    padding: 2rem;
+    flex-direction: column;
+}
 
+#vueGlobale {
+    padding: 2rem;
+    flex-direction: column;
+}
 #scoresJoueurs {
     text-align: center;
 }

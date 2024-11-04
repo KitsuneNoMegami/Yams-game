@@ -27,7 +27,7 @@ async function ChargerDonneeJeu() {
 
 // Fonction pour afficher la vue globale du jeu
 function AfficherVueGlobale() {
-    document.getElementById("vueGlobale").style.display = "block"; // Affiche la vue globale
+    document.getElementById("vueGlobale").style.display = "flex"; // Affiche la vue globale
     document.getElementById("vueTour").style.display = "none"; // Masque la vue des tours
     const globalSummary = document.getElementById("resumeGlobal"); // Récupère l'élément pour afficher le résumé global
 
@@ -55,7 +55,7 @@ function AfficherVueGlobale() {
 // Fonction pour afficher la vue du tour actuel
 function AfficherVueParTour() {
     document.getElementById("vueGlobale").style.display = "none"; // Masque la vue globale
-    document.getElementById("vueTour").style.display = "block"; // Affiche la vue des tours
+    document.getElementById("vueTour").style.display = "flex"; // Affiche la vue des tours
     AfficherTourActuel(); // Appelle la fonction pour afficher le tour actuel
 }
 
