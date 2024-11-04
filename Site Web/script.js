@@ -18,7 +18,9 @@ async function ChargerDonneeJeu() {
     try {
         const response = await fetch(fileName); // Charge le fichier JSON
         gameData = await response.json(); // Convertit la réponse en objet JSON
-        AfficherVueGlobale(); // Appelle la fonction pour afficher la vue globale du jeu
+        const boutonvue = document.querySelectorAll('#boutonsVue button'); // Select all button elements within the element with ID 'boutonsVue'
+        boutonvue[0].classList.remove('disabled'); // Remove 'disabled' class from the first button
+        boutonvue[2].classList.remove('disabled'); // Remove 'disabled' class from the third button   
     } catch (error) {
         console.error("Erreur de chargement des données JSON :", error); // Log l'erreur dans la console
         alert("Erreur de chargement des données JSON. Vérifiez le nom du fichier et réessayez."); // Alerte l'utilisateur en cas d'erreur

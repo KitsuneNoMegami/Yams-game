@@ -23,9 +23,9 @@
 
         <!-- Boutons pour changer la vue et le thème -->
         <div id="boutonsVue">
-            <button onclick="AfficherVueGlobale()">Vue Globale</button> <!-- Affiche la vue globale -->
+            <button id="btnvueglobale" onclick="AfficherVueGlobale()" class="disabled">Vue Globale</button> <!-- Affiche la vue globale -->
             <button id="toggleTheme" onclick="ChangerTheme()">☀️</button> <!-- Change le thème entre sombre et clair -->
-            <button onclick="AfficherVueParTour()">Vue Tour par Tour</button> <!-- Affiche la vue tour par tour -->
+            <button id="btnvuetour"onclick="AfficherVueParTour()" class="disabled">Vue Tour par Tour</button> <!-- Affiche la vue tour par tour -->
         </div>
     </header>
 
