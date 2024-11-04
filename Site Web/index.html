@@ -15,47 +15,47 @@
     <!-- En-tête contenant le formulaire de chargement et les boutons de navigation -->
     <header>
         <!-- Formulaire pour entrer le nom du fichier JSON -->
-        <form id="jsonForm">
-            <label for="fileName">Nom du fichier JSON :</label>
-            <input type="text" id="fileName" placeholder="exemple.json" onkeypress="VerifEntrer(event)">
+        <form id="formulaireJSON">
+            <label for="nomFichier">Nom du fichier JSON :</label>
+            <input type="text" id="nomFichier" placeholder="exemple.json" onkeypress="VerifEntrer(event)">
             <button type="button" onclick="ChargerDonneeJeu()">Charger</button>
         </form>
 
         <!-- Boutons pour changer la vue et le thème -->
-        <div id="viewButtons">
+        <div id="boutonsVue">
             <button onclick="AfficherVueGlobale()">Vue Globale</button> <!-- Affiche la vue globale -->
-            <button id="themeToggle" onclick="ChangerTheme()">☀️</button> <!-- Change le thème entre sombre et clair -->
+            <button id="toggleTheme" onclick="ChangerTheme()">☀️</button> <!-- Change le thème entre sombre et clair -->
             <button onclick="AfficherVueParTour()">Vue Tour par Tour</button> <!-- Affiche la vue tour par tour -->
         </div>
     </header>
 
     <!-- Section pour la Vue Globale, cachée par défaut -->
-    <section id="globalView" style="display: none;">
+    <section id="vueGlobale" style="display: none;">
         <h2>Vision globale d'une partie</h2>
-        <div id="globalSummary"></div> <!-- Conteneur pour le résumé global de la partie -->
+        <div id="resumeGlobal"></div> <!-- Conteneur pour le résumé global de la partie -->
     </section>
 
     <!-- Section pour la Vue Tour par Tour, cachée par défaut -->
-    <section id="turnView" style="display: none;">
-        <div class="turn-navigation-container">
+    <section id="vueTour" style="display: none;">
+        <div class="tour-navigation-container">
             <!-- Navigation entre les tours -->
-            <div class="navigation left">
+            <div class="navigation gauche">
                 <button onclick="AfficherTourPrecedent()" data-label="Tour Précédent">⬅️</button> <!-- Bouton pour le tour précédent -->
             </div>
-            <div class="current-turn" id="currentTurn">
+            <div class="tour-actuel" id="tourActuel">
                 <!-- Contenu du tour affiché ici dynamiquement -->
             </div>
-            <div class="navigation right">
+            <div class="navigation droite">
                 <button onclick="AfficherTourSuivant()" data-label="Tour Suivant">➡️</button> <!-- Bouton pour le tour suivant -->
             </div>
         </div>
 
         <!-- Affichage des scores cumulés des joueurs -->
-        <div id="playerScores">
+        <div id="scoresJoueurs">
             <h3>Scores Cumulés</h3>
             <!-- Les scores cumulés pour chaque joueur seront insérés ici -->
-            <div id="scorePlayer1"></div>
-            <div id="scorePlayer2"></div>
+            <div id="scoreJoueur1"></div>
+            <div id="scoreJoueur2"></div>
         </div>
     </section>
 
