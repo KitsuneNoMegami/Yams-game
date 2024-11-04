@@ -139,31 +139,31 @@ button:hover {
     background-color: #45a049;
 }
 
-.dark-theme {
+.theme-sombre {
     background-color: #121212;
     color: #ffffff;
 }
 
-.dark-theme header {
+.theme-sombre header {
     background-color: #1f1f1f;
 }
 
-.dark-theme section {
+.theme-sombre section {
     background-color: #1c1c1c;
     border-color: #444;
 }
 
-.dark-theme #tourActuel {
+.theme-sombre #tourActuel {
     background-color: #1c1c1c;
     border-color: #444;
 }
 
-.dark-theme button {
+.theme-sombre button {
     background-color: #333;
     color: #ffffff;
 }
 
-.dark-theme button:hover {
+.theme-sombre button:hover {
     background-color: #555;
 }
 
