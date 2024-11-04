@@ -93,8 +93,6 @@ class YAMS {
     if (suite) {score=40;}
     return score;
   }
-
-
   public static int Yams(int[] T) {      // TESTE un yams et renvoie le score
     int score = 0;
     int n=T[0];
