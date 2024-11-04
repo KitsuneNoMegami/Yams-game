@@ -7,13 +7,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem; /* Utilisez des unités rem pour une meilleure réactivité */
+    padding: 2rem;
     transition: background-color 0.3s, color 0.3s;
 }
 
 body h1 {
     text-align: center;
-    font-size: 2rem; /* Ajustez la taille de la police pour l'en-tête */
+    font-size: 2rem;
 }
 
 header {
@@ -23,10 +23,10 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 1rem; /* Utilisez des unités rem pour un rendu fluide */
+    border-radius: 1rem;
 }
 
-#jsonForm {
+#formulaireJSON {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -35,8 +35,8 @@ header {
     align-self: center;
 }
 
-#jsonForm input {
-    flex: 1; /* Permet aux inputs de s'étendre */
+#formulaireJSON input {
+    flex: 1;
 }
 
 label {
@@ -44,7 +44,7 @@ label {
     text-align: center;
 }
 
-#fileName {
+#nomFichier {
     text-align: center;
 }
 
@@ -52,7 +52,7 @@ input {
     width: 100%;
 }
 
-#viewButtons {
+#boutonsVue {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -70,21 +70,20 @@ section {
     height: 25%;
 }
 
-.turn-navigation-container {
+.tour-navigation-container {
     display: flex;
     justify-content: space-between;
-    align-items: stretch; /* Permet aux éléments enfants de s'étirer */
+    align-items: stretch;
     margin-bottom: 1rem;
-    height: auto; /* Ajuster si nécessaire */
 }
 
 .navigation {
-    flex: 1; /* Permet aux boutons de s'étendre également */
-    display: flex; /* Change pour flex pour permettre un alignement */
-    align-items: center; /* Centre verticalement le contenu */
-    justify-content: center; /* Centre horizontalement le contenu */
-    height: 100%; /* Assure que la hauteur du bouton soit 100% de son conteneur */
-    padding: 1rem; /* Ajoute du padding si nécessaire */
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 1rem;
 }
 
 .players {
@@ -94,33 +93,29 @@ section {
 
 .player {
     flex: 1;
-    margin: 0 10px; /* Ajoute un peu d'espace entre les colonnes */
+    margin: 0 10px;
 }
 
 section h3 {
     text-align: center;
 }
 
-.current-turn {
-    padding: 2rem; /* Le padding reste inchangé pour les résultats */
+#tourActuel {
+    padding: 2rem;
     border: 1px solid #ddd;
     background-color: #fff;
     border-radius: 0.5rem;
-    flex-grow: 1; /* Permet à l'affichage du tour de prendre le reste de l'espace */
-    transition: background-color 0.3s, border-color 0.3s; /* Ajout d'une transition pour le changement de thème */
+    flex-grow: 1;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-#finalScore {
-    margin-top: 2rem;
-    font-weight: bold;
+#scoresJoueurs {
+    text-align: center;
 }
-
-
 
 .disabled {
     pointer-events: none;
     opacity: 0.5;
-
 }
 
 button {
@@ -134,9 +129,8 @@ button {
     transition: background-color 0.3s;
 }
 
-
-section button {
-    padding: auto; /* Un peu plus d'espace autour des boutons dans les sections */
+#vueGlobale button {
+    padding: auto;
     background-color: #4CAF50;
     height: 20rem;
 }
@@ -145,10 +139,6 @@ button:hover {
     background-color: #45a049;
 }
 
-#playerScores {
-    text-align: center;
-}
-/* Styles pour le thème sombre */
 .dark-theme {
     background-color: #121212;
     color: #ffffff;
@@ -163,7 +153,7 @@ button:hover {
     border-color: #444;
 }
 
-.dark-theme .current-turn {
+.dark-theme #tourActuel {
     background-color: #1c1c1c;
     border-color: #444;
 }
@@ -177,49 +167,48 @@ button:hover {
     background-color: #555;
 }
 
-/* Media Queries pour rendre le design responsive */
 @media (max-width: 768px) {
     header {
         margin-bottom: 1.5rem;
     }
     
-    .turn-navigation-container {
-        flex-direction: column; /* Aligne les boutons en colonne sur les petits écrans */
+    .tour-navigation-container {
+        flex-direction: column;
     }
     .navigation {
-        height: auto; /* Annule la hauteur de 100% pour les petits écrans */
+        height: auto;
     }
 
-    #jsonForm {
+    #formulaireJSON {
         flex-direction: column; 
         align-items: center;
     }
 
     section {
-        padding: 2rem; /* Ajustez le padding pour les petits écrans */
+        padding: 2rem;
     }
 
-    .current-turn {
-        padding: 1.5rem; /* Réduit le padding sur les petits écrans */
+    #tourActuel {
+        padding: 1.5rem;
     }
 
     .players {
-        flex-direction: column; /* Aligne les joueurs en colonne */
+        flex-direction: column;
     }
     
     .player {
-        margin: 1rem 0; /* Ajoute de l'espace entre les sections des joueurs */
+        margin: 1rem 0;
     }
     
-    #viewButtons {
-        flex-direction: column; /* Affiche les boutons en colonne */
+    #boutonsVue {
+        flex-direction: column;
     }
 
     button {
         padding: 1rem; 
     }
 
-    section button {
+    #vueGlobale button {
         flex-direction: row;
         height: auto;
     }
@@ -227,22 +216,22 @@ button:hover {
 
 @media (max-width: 480px) {
     body {
-        padding: 1rem; /* Réduit le padding sur très petits écrans */
+        padding: 1rem;
     }
     
     button {
-        padding: 0.8rem; /* Réduit le padding pour les très petits écrans */
+        padding: 0.8rem;
     }
 
     section {
-        padding: 1rem; /* Réduit le padding dans les sections */
+        padding: 1rem;
     }
 
-    .turn-navigation-container {
-        flex-direction: column; /* Aligne les boutons de navigation en colonne */
+    .tour-navigation-container {
+        flex-direction: column;
     }
 
     .navigation {
-        margin: 0.5rem 0; /* Ajoute un peu d'espace entre les boutons */
+        margin: 0.5rem 0;
     }
 }
