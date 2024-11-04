@@ -13,7 +13,7 @@ function VerifEntrer(event) {
 
 // Fonction asynchrone pour charger les données du jeu à partir d'un fichier JSON
 async function ChargerDonneeJeu() {
-    const fileName = document.getElementById("fileName").value || "exemple.json"; // Obtient le nom du fichier ou utilise "exemple.json" par défaut
+    const fileName = document.getElementById("nomFichier").value || "exemple.json"; // Obtient le nom du fichier ou utilise "exemple.json" par défaut
     currentTurnIndex = 0; // Réinitialise l'index du tour actuel
     try {
         const response = await fetch(fileName); // Charge le fichier JSON
@@ -27,9 +27,9 @@ async function ChargerDonneeJeu() {
 
 // Fonction pour afficher la vue globale du jeu
 function AfficherVueGlobale() {
-    document.getElementById("globalView").style.display = "block"; // Affiche la vue globale
-    document.getElementById("turnView").style.display = "none"; // Masque la vue des tours
-    const globalSummary = document.getElementById("globalSummary"); // Récupère l'élément pour afficher le résumé global
+    document.getElementById("vueGlobale").style.display = "block"; // Affiche la vue globale
+    document.getElementById("vueTour").style.display = "none"; // Masque la vue des tours
+    const globalSummary = document.getElementById("resumeGlobal"); // Récupère l'élément pour afficher le résumé global
 
     // Affiche les paramètres du jeu
     const gameParameters = gameData.parameters;
@@ -54,8 +54,8 @@ function AfficherVueGlobale() {
 
 // Fonction pour afficher la vue du tour actuel
 function AfficherVueParTour() {
-    document.getElementById("globalView").style.display = "none"; // Masque la vue globale
-    document.getElementById("turnView").style.display = "block"; // Affiche la vue des tours
+    document.getElementById("vueGlobale").style.display = "none"; // Masque la vue globale
+    document.getElementById("vueTour").style.display = "block"; // Affiche la vue des tours
     AfficherTourActuel(); // Appelle la fonction pour afficher le tour actuel
 }
 
@@ -87,7 +87,7 @@ function AfficherTourActuel() {
     const player1Result = currentTurn.results.find(result => result.id_player === player1.id); // Résultat du joueur 1 pour le tour actuel
     const player2Result = currentTurn.results.find(result => result.id_player === player2.id); // Résultat du joueur 2 pour le tour actuel
 
-    const turnDisplay = document.getElementById("currentTurn"); // Récupère l'élément pour afficher les résultats du tour actuel
+    const turnDisplay = document.getElementById("tourActuel"); // Récupère l'élément pour afficher les résultats du tour actuel
 
     // Affiche les résultats du tour actuel
     turnDisplay.innerHTML = `
@@ -109,16 +109,16 @@ function AfficherTourActuel() {
     `;
 
     // Affiche les scores cumulés
-    document.getElementById("scorePlayer1").innerHTML = `${player1.pseudo} : ${scores[0]}`;
-    document.getElementById("scorePlayer2").innerHTML = `${player2.pseudo} : ${scores[1]}`;
+    document.getElementById("scoreJoueur1").innerHTML = `${player1.pseudo} : ${scores[0]}`;
+    document.getElementById("scoreJoueur2").innerHTML = `${player2.pseudo} : ${scores[1]}`;
     
     // Si c'est le dernier tour, affiche les scores finaux avec les bonus
     if (currentTurnIndex === gameData.rounds.length - 1) {
         const finalScore1 = scores[0] + gameData.final_result.find(res => res.id_player === player1.id).bonus; // Score final du joueur 1 avec bonus
         const finalScore2 = scores[1] + gameData.final_result.find(res => res.id_player === player2.id).bonus; // Score final du joueur 2 avec bonus
         
-        document.getElementById("scorePlayer1").innerHTML = `${player1.pseudo} : ${finalScore1} pts (dont ${gameData.final_result.find(res => res.id_player === player1.id).bonus} pts bonus)`;
-        document.getElementById("scorePlayer2").innerHTML = `${player2.pseudo} : ${finalScore2} pts (dont ${gameData.final_result.find(res => res.id_player === player2.id).bonus} pts bonus)`;
+        document.getElementById("scoreJoueur1").innerHTML = `${player1.pseudo} : ${finalScore1} pts (dont ${gameData.final_result.find(res => res.id_player === player1.id).bonus} pts bonus)`;
+        document.getElementById("scoreJoueur2").innerHTML = `${player2.pseudo} : ${finalScore2} pts (dont ${gameData.final_result.find(res => res.id_player === player2.id).bonus} pts bonus)`;
     }
 }
 
@@ -141,7 +141,7 @@ function AfficherTourSuivant() {
 // Fonction pour changer le thème de l'application
 function ChangerTheme() {
     const body = document.body; // Récupère l'élément body du document
-    const themeToggleButton = document.getElementById("themeToggle"); // Récupère le bouton de changement de thème
+    const themeToggleButton = document.getElementById("toggleTheme"); // Récupère le bouton de changement de thème
 
     // Alterne la classe dark-theme pour changer le thème
     body.classList.toggle("dark-theme");
