@@ -39,16 +39,16 @@ function AfficherVueGlobale() {
     `;
     
     // Récupère les scores des joueurs
-    const player1 = gameData.players[0];
-    const player2 = gameData.players[1];
-    const score1 = gameData.final_result.find(res => res.id_player === player1.id).score; // Score du joueur 1
-    const score2 = gameData.final_result.find(res => res.id_player === player2.id).score; // Score du joueur 2
+    const joueur1 = gameData.players[0];
+    const joueur2 = gameData.players[1];
+    const score1 = gameData.final_result.find(res => res.id_player === joueur1.id).score; // Score du joueur 1
+    const score2 = gameData.final_result.find(res => res.id_player === joueur2.id).score; // Score du joueur 2
 
     // Met à jour l'affichage des résultats globaux
     globalSummary.innerHTML = `
         ${parametersDisplay}
-        <p>${player1.pseudo} - Score Final : ${score1}</p>
-        <p>${player2.pseudo} - Score Final : ${score2}</p>
+        <p>${joueur1.pseudo} - Score Final : ${score1}</p>
+        <p>${joueur2.pseudo} - Score Final : ${score2}</p>
     `;
 }
 
@@ -67,8 +67,8 @@ function AfficherTourActuel() {
     navigationButtons[0].classList.toggle('disabled', currentTurnIndex === 0); // Bouton pour le tour précédent
     navigationButtons[1].classList.toggle('disabled', currentTurnIndex === gameData.rounds.length - 1); // Bouton pour le tour suivant
 
-    const player1 = gameData.players[0]; // Récupère le premier joueur
-    const player2 = gameData.players[1]; // Récupère le deuxième joueur
+    const joueur1 = gameData.players[0]; // Récupère le premier joueur
+    const joueur2 = gameData.players[1]; // Récupère le deuxième joueur
 
     // Réinitialise les scores cumulés
     scores = [0, 0];
@@ -76,16 +76,16 @@ function AfficherTourActuel() {
     // Calcule les scores cumulés pour chaque tour jusqu'au tour actuel
     for (let i = 0; i <= currentTurnIndex; i++) {
         const turn = gameData.rounds[i]; // Récupère les résultats du tour
-        const player1Result = turn.results.find(result => result.id_player === player1.id); // Résultat du joueur 1
-        const player2Result = turn.results.find(result => result.id_player === player2.id); // Résultat du joueur 2
+        const joueur1Result = turn.results.find(result => result.id_player === joueur1.id); // Résultat du joueur 1
+        const joueur2Result = turn.results.find(result => result.id_player === joueur2.id); // Résultat du joueur 2
 
-        scores[0] += player1Result.score; // Ajoute le score du joueur 1
-        scores[1] += player2Result.score; // Ajoute le score du joueur 2
+        scores[0] += joueur1Result.score; // Ajoute le score du joueur 1
+        scores[1] += joueur2Result.score; // Ajoute le score du joueur 2
     }
 
     const currentTurn = gameData.rounds[currentTurnIndex]; // Récupère les résultats du tour actuel
-    const player1Result = currentTurn.results.find(result => result.id_player === player1.id); // Résultat du joueur 1 pour le tour actuel
-    const player2Result = currentTurn.results.find(result => result.id_player === player2.id); // Résultat du joueur 2 pour le tour actuel
+    const joueur1Result = currentTurn.results.find(result => result.id_player === joueur1.id); // Résultat du joueur 1 pour le tour actuel
+    const joueur2Result = currentTurn.results.find(result => result.id_player === joueur2.id); // Résultat du joueur 2 pour le tour actuel
 
     const turnDisplay = document.getElementById("tourActuel"); // Récupère l'élément pour afficher les résultats du tour actuel
 
@@ -94,31 +94,31 @@ function AfficherTourActuel() {
         <h3>Tour ${currentTurnIndex + 1}</h3>
         <div class="players">
             <div class="player">
-                <h4>${player1.pseudo} :</h4>
-                <p> - Dés : [${player1Result.dice.join(", ")}]</p>
-                <p> - Challenge : ${player1Result.challenge}</p>
-                <p> - Points : ${player1Result.score}</p>
+                <h4>${joueur1.pseudo} :</h4>
+                <p> - Dés : [${joueur1Result.dice.join(", ")}]</p>
+                <p> - Challenge : ${joueur1Result.challenge}</p>
+                <p> - Points : ${joueur1Result.score}</p>
             </div>
             <div class="player">
-                <h4>${player2.pseudo} :</h4>
-                <p> - Dés : [${player2Result.dice.join(", ")}]</p>
-                <p> - Challenge : ${player2Result.challenge}</p>
-                <p> - Points : ${player2Result.score}</p>
+                <h4>${joueur2.pseudo} :</h4>
+                <p> - Dés : [${joueur2Result.dice.join(", ")}]</p>
+                <p> - Challenge : ${joueur2Result.challenge}</p>
+                <p> - Points : ${joueur2Result.score}</p>
             </div>
         </div>
     `;
 
     // Affiche les scores cumulés
-    document.getElementById("scoreJoueur1").innerHTML = `${player1.pseudo} : ${scores[0]}`;
-    document.getElementById("scoreJoueur2").innerHTML = `${player2.pseudo} : ${scores[1]}`;
+    document.getElementById("scoreJoueur1").innerHTML = `${joueur1.pseudo} : ${scores[0]}`;
+    document.getElementById("scoreJoueur2").innerHTML = `${joueur2.pseudo} : ${scores[1]}`;
     
     // Si c'est le dernier tour, affiche les scores finaux avec les bonus
     if (currentTurnIndex === gameData.rounds.length - 1) {
-        const finalScore1 = scores[0] + gameData.final_result.find(res => res.id_player === player1.id).bonus; // Score final du joueur 1 avec bonus
-        const finalScore2 = scores[1] + gameData.final_result.find(res => res.id_player === player2.id).bonus; // Score final du joueur 2 avec bonus
+        const finalScore1 = scores[0] + gameData.final_result.find(res => res.id_player === joueur1.id).bonus; // Score final du joueur 1 avec bonus
+        const finalScore2 = scores[1] + gameData.final_result.find(res => res.id_player === joueur2.id).bonus; // Score final du joueur 2 avec bonus
         
-        document.getElementById("scoreJoueur1").innerHTML = `${player1.pseudo} : ${finalScore1} pts (dont ${gameData.final_result.find(res => res.id_player === player1.id).bonus} pts bonus)`;
-        document.getElementById("scoreJoueur2").innerHTML = `${player2.pseudo} : ${finalScore2} pts (dont ${gameData.final_result.find(res => res.id_player === player2.id).bonus} pts bonus)`;
+        document.getElementById("scoreJoueur1").innerHTML = `${joueur1.pseudo} : ${finalScore1} pts (dont ${gameData.final_result.find(res => res.id_player === joueur1.id).bonus} pts bonus)`;
+        document.getElementById("scoreJoueur2").innerHTML = `${joueur2.pseudo} : ${finalScore2} pts (dont ${gameData.final_result.find(res => res.id_player === joueur2.id).bonus} pts bonus)`;
     }
 }
 
