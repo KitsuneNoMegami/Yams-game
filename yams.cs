@@ -44,7 +44,7 @@ class YAMS {
 
   public static int Brelan(int[] T) {     // TESTE un brelan et renvoie le score
     int score = 0;
-    for (int i=0; i<5; i++) {
+    for (int i=1; i<7; i++) {
       if (NbDansTab(T,i)>=3) {
         score=i*3;
       }
@@ -53,7 +53,7 @@ class YAMS {
   }
   public static int Carre(int[] T) {      // TESTE un carré et renvoie le score
     int score = 0;
-    for (int i=0; i<5; i++) {
+    for (int i=1; i<7; i++) {
       if (NbDansTab(T,i)>=4) {
         score=i*4;
       }
@@ -108,15 +108,22 @@ class YAMS {
   }
 
 
+  public static int[] LanceDes(int N) {      // Lance N dés et renvoie le tab
+    Random random = new Random();
+    int[] T = new int[5] {0,0,0,0,0};
+    for (int i=0; i<N; i++) {
+      T[i] = random.Next(1,7);
+    }
+    return T;
+  }
+
+
+
 
 
 
   public static void Main() {
-    Random random = new Random();
-    int[] T = new int[5] {2,6,4,5,3};
-    for (int i=0; i<5; i++) {
-      T[i] = random.Next(1,7);
-    }
+    int[] T = LanceDes(5);
     
     T = Trie(T);
     Affiche(T,5);
