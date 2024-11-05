@@ -44,7 +44,7 @@ class YAMS {
 
   public static int Brelan(int[] T) {     // TESTE un brelan et renvoie le score
     int score = 0;
-    for (int i=0; i<5; i++) {
+    for (int i=1; i<7; i++) {
       if (NbDansTab(T,i)>=3) {
         score=i*3;
       }
@@ -53,7 +53,7 @@ class YAMS {
   }
   public static int Carre(int[] T) {      // TESTE un carré et renvoie le score
     int score = 0;
-    for (int i=0; i<5; i++) {
+    for (int i=1; i<7; i++) {
       if (NbDansTab(T,i)>=4) {
         score=i*4;
       }
