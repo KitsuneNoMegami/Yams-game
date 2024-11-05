@@ -3,7 +3,16 @@ let currentTurnIndex = 0; // Index du tour actuel, commence à 0
 let scores = [0, 0]; // Initialisation des scores cumulés pour chaque joueur
 let bonuses = [0, 0]; // Initialisation des bonus pour chaque joueur
 
-function afficherGif() {
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function afficherGif() {
+    const existingContainer = document.getElementById("gifContainer");
+    if (existingContainer) {
+        document.body.removeChild(existingContainer);
+    }
     // Crée le conteneur pour le GIF
     const gifContainer = document.createElement("div");
     gifContainer.id = "gifContainer";
@@ -49,6 +58,7 @@ function afficherGif() {
     setTimeout(() => {
         document.body.removeChild(overlay); // Supprime l'overlay du body
     }, 2500); // Durée d'affichage en millisecondes (3 secondes ici)
+    await sleep(2500);
     ChargerDonneeJeu()
 }
 
@@ -75,8 +85,8 @@ function ResetJeu() {
     // Réinitialiser la vue
     document.getElementById("vueGlobale").style.display = "none"; // Masquer la vue globale
     document.getElementById("vueTour").style.display = "none"; // Masquer la vue des tours
-    document.querySelectorAll('#boutonsVue button')[0].style.display = "none"; // Désactiver le bouton de vue globale
-    document.querySelectorAll('#boutonsVue button')[2].style.display = "none"; // Désactiver le bouton de vue par tour
+    document.querySelectorAll('#boutonsVue button')[0].classList.add("invisible"); // Désactiver le bouton de vue globale
+    document.querySelectorAll('#boutonsVue button')[2].classList.add("invisible"); // Désactiver le bouton de vue par tour
 
     // Si vous avez un champ pour le nom du fichier, réinitialiser également
     document.getElementById("nomFichier").value = ""; // Vider le champ de saisie du nom du fichier
@@ -89,9 +99,8 @@ async function ChargerDonneeJeu() {
         const response = await fetch(fileName); // Charge le fichier JSON
         gameData = await response.json(); // Convertit la réponse en objet JSON
         const boutonvue = document.querySelectorAll('#boutonsVue button'); // Sélectionne tous les éléments bouton dans l'élément avec l'ID 'boutonsVue'
-        boutonvue[0].style.display = "flex"; // Retire la classe 'disabled' du premier bouton
-        boutonvue[2].style.display = "flex"; // Retire la classe 'disabled' du troisième bouton
-
+        boutonvue[0].classList.remove("invisible"); // Retire la classe 'disabled' du premier bouton
+        boutonvue[2].classList.remove("invisible"); // Retire la classe 'disabled' du troisième bouton
     } catch (error) {
         console.error("Erreur de chargement des données JSON :", error); // Log l'erreur dans la console
         alert("Erreur de chargement des données JSON. Vérifiez le nom du fichier et réessayez."); // Alerte l'utilisateur en cas d'erreur

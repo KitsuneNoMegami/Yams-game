@@ -1,0 +1,3 @@
+- Revoir la gestion des erreur 
+- Netoyer le code
+
