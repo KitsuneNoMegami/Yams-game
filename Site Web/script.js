@@ -172,21 +172,25 @@ function AfficherTourActuel() {
 
     const turnDisplay = document.getElementById("tourActuel"); // Récupère l'élément pour afficher les résultats du tour actuel
     // let chemin = Images/Dés_{localStorage.getItem("theme")}/joueur1Result.dice.png
-    // for (let i = 0; i <= )
-
+    let html1 = "";
+    for (let i = 0; i <= joueur1Result.dice.length-1; i++)
+        html1 += `<img src="Images/Dés_${localStorage.getItem("theme")}/${joueur1Result.dice[i]}.png" height=30rem wight=30rem>`
+    let html2 = "";
+    for (let i = 0; i <= joueur2Result.dice.length-1; i++)
+        html2 += `<img src="Images/Dés_${localStorage.getItem("theme")}/${joueur2Result.dice[i]}.png" height=30rem wight=30rem>`
     // Affiche les résultats du tour actuel
     turnDisplay.innerHTML = `
         <h3>Tour ${currentTurnIndex + 1}</h3>
         <div class="players">
             <div class="player">
                 <h4>${joueur1.pseudo} :</h4>
-                <p> - Dés : [${joueur1Result.dice.join(", ")}]</p>
+                <p>- Dés : ${html1}</p>
                 <p> - Challenge : ${joueur1Result.challenge}</p>
                 <p> - Points : ${joueur1Result.score}</p>
             </div>
             <div class="player">
                 <h4>${joueur2.pseudo} :</h4>
-                <p> - Dés : [${joueur2Result.dice.join(", ")}]</p>
+                <p> - Dés : ${html2}</p>
                 <p> - Challenge : ${joueur2Result.challenge}</p>
                 <p> - Points : ${joueur2Result.score}</p>
             </div>

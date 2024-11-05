@@ -91,6 +91,7 @@ section {
     align-items: stretch; /* Permet aux éléments enfants de s'étirer */
     margin-bottom: 1rem;
     height: auto; /* Ajuster si nécessaire */
+    width: auto;
 }
 
 .navigation {
