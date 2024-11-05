@@ -93,8 +93,6 @@ class YAMS {
     if (suite) {score=40;}
     return score;
   }
-
-
   public static int Yams(int[] T) {      // TESTE un yams et renvoie le score
     int score = 0;
     int n=T[0];
@@ -110,16 +108,22 @@ class YAMS {
   }
 
 
+  public static int[] LanceDes(int N) {      // Lance N dés et renvoie le tab
+    Random random = new Random();
+    int[] T = new int[5] {0,0,0,0,0};
+    for (int i=0; i<N; i++) {
+      T[i] = random.Next(1,7);
+    }
+    return T;
+  }
+
+
 
 
 
 
   public static void Main() {
-    Random random = new Random();
-    int[] T = new int[5] {2,6,4,5,3};
-    for (int i=0; i<5; i++) {
-      T[i] = random.Next(1,7);
-    }
+    int[] T = LanceDes(5);
     
     T = Trie(T);
     Affiche(T,5);
