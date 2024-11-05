@@ -239,6 +239,11 @@ function ChangerTheme() {
     }
 }
 
+// Écouteur d'événement pour s'assurer que le DOM est chargé avant d'appeler la fonction
+document.addEventListener("DOMContentLoaded", () => {
+    VerifVarPersist(); // Appelle la fonction pour vérifier la variable persistante
+});
+
 // Fonction pour vérifier et appliquer le thème sauvegardé ou celui de l'appareil
 function VerifVarPersist() {
     const savedTheme = localStorage.getItem("theme"); // Récupère le thème sauvegardé
@@ -268,9 +273,6 @@ function VerifVarPersist() {
     }
 }
 
-// Écouteur d'événement pour s'assurer que le DOM est chargé avant d'appeler la fonction
-document.addEventListener("DOMContentLoaded", () => {
-    VerifVarPersist(); // Appelle la fonction pour vérifier la variable persistante
-});
+
 
 
