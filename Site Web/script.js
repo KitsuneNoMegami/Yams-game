@@ -9,6 +9,7 @@ function sleep(ms) {
 }
 
 async function afficherGif() {
+    // Supprime le conteneur s'il existe déjà
     const existingContainer = document.getElementById("gifContainer");
     if (existingContainer) {
         document.body.removeChild(existingContainer);
