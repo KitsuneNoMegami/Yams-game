@@ -33,10 +33,8 @@ header {
     margin-bottom: 1rem;
     align-items: baseline;
     align-self: center;
-}
-
-#formulaireJSON {
     flex: 1; /* Permet aux inputs de s'étendre */
+
 }
 
 #charger {
@@ -49,7 +47,7 @@ header {
 #reset {
     display: flex;
     flex-direction: column;
-    width: auto;
+    width: 9%;
     justify-content: center;
     
 }
@@ -251,6 +249,11 @@ button:hover {
         flex-direction: row;
         height: auto;
     }
+    #reset {
+        width: 10rem;
+        
+    }
+    
 }
 
 @media (max-width: 480px) {
@@ -273,4 +276,10 @@ button:hover {
     .navigation {
         margin: 0.5rem 0; /* Ajoute un peu d'espace entre les boutons */
     }
+
+    #reset {
+        width: 10rem;
+        
+    }
+    
 }
