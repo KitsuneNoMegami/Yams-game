@@ -170,10 +170,10 @@ function AfficherTourActuel() {
     const joueur1Result = currentTurn.results.find(result => result.id_player === joueur1.id); // Résultat du joueur 1 pour le tour actuel
     const joueur2Result = currentTurn.results.find(result => result.id_player === joueur2.id); // Résultat du joueur 2 pour le tour actuel
 
-    // const turnDisplay = document.getElementById("tourActuel"); // Récupère l'élément pour afficher les résultats du tour actuel
+    const turnDisplay = document.getElementById("tourActuel"); // Récupère l'élément pour afficher les résultats du tour actuel
     // let chemin = Images/Dés_{localStorage.getItem("theme")}/joueur1Result.dice.png
-    // for (let i = 0; i )
-    
+    // for (let i = 0; i <= )
+
     // Affiche les résultats du tour actuel
     turnDisplay.innerHTML = `
         <h3>Tour ${currentTurnIndex + 1}</h3>
