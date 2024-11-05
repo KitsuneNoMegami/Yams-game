@@ -35,8 +35,23 @@ header {
     align-self: center;
 }
 
-#formulaireJSON input {
+#formulaireJSON {
     flex: 1; /* Permet aux inputs de s'étendre */
+}
+
+#charger {
+    display:flex;
+    flex-direction: column;
+    width: 87%;
+    justify-content: center;
+
+}
+#reset {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    justify-content: center;
+    
 }
 
 label {

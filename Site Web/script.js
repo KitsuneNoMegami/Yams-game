@@ -10,7 +10,28 @@ function VerifEntrer(event) {
         ChargerDonneeJeu(); // Appelle la fonction pour charger les données du jeu
     }
 }
+function ResetJeu() {
+    // Réinitialiser les variables globales
+    gameData = null; // Réinitialiser les données du jeu
+    currentTurnIndex = 0; // Réinitialiser l'index du tour
+    scores = [0, 0]; // Réinitialiser les scores
+    bonuses = [0, 0]; // Réinitialiser les bonus
 
+    // Réinitialiser l'affichage
+    document.getElementById("resumeGlobal").innerHTML = ""; // Vider le résumé global
+    document.getElementById("tourActuel").innerHTML = ""; // Vider les détails du tour actuel
+    document.getElementById("scoreJoueur1").innerHTML = ""; // Vider les scores du joueur 1
+    document.getElementById("scoreJoueur2").innerHTML = ""; // Vider les scores du joueur 2
+
+    // Réinitialiser la vue
+    document.getElementById("vueGlobale").style.display = "none"; // Masquer la vue globale
+    document.getElementById("vueTour").style.display = "none"; // Masquer la vue des tours
+    document.querySelectorAll('#boutonsVue button')[0].classList.add("disabled"); // Désactiver le bouton de vue globale
+    document.querySelectorAll('#boutonsVue button')[2].classList.add("disabled"); // Désactiver le bouton de vue par tour
+
+    // Si vous avez un champ pour le nom du fichier, réinitialiser également
+    document.getElementById("nomFichier").value = ""; // Vider le champ de saisie du nom du fichier
+}
 // Fonction asynchrone pour charger les données du jeu à partir d'un fichier JSON
 async function ChargerDonneeJeu() {
     const fileName = document.getElementById("nomFichier").value || "exemple.json"; // Obtient le nom du fichier ou utilise "exemple.json" par défaut
@@ -141,7 +162,7 @@ function AfficherTourSuivant() {
     }
 }
 
-// Fonction pour changer le thème de l'application
+// Fonction pour changer le thème et le sauvegarder dans le localStorage
 function ChangerTheme() {
     const body = document.body; // Récupère l'élément body du document
     const themeToggleButton = document.getElementById("toggleTheme"); // Récupère le bouton de changement de thème
@@ -149,10 +170,48 @@ function ChangerTheme() {
     // Alterne la classe theme-sombre pour changer le thème
     body.classList.toggle("theme-sombre");
 
-    // Change le texte du bouton en fonction du thème
+    // Sauvegarde le thème choisi dans le localStorage
     if (body.classList.contains("theme-sombre")) {
-        themeToggleButton.innerText = "☀️"; // Change le texte du bouton en thème clair
+        localStorage.setItem("theme", "sombre"); // Sauvegarde le thème sombre
+        themeToggleButton.innerText = "☀️"; // Change le texte du bouton
     } else {
-        themeToggleButton.innerText = "🌙"; // Change le texte du bouton en thème sombre
+        localStorage.setItem("theme", "clair"); // Sauvegarde le thème clair
+        themeToggleButton.innerText = "🌙"; // Change le texte du bouton
     }
 }
+
+// Fonction pour vérifier et appliquer le thème sauvegardé ou celui de l'appareil
+function VerifVarPersist() {
+    const savedTheme = localStorage.getItem("theme"); // Récupère le thème sauvegardé
+
+    // Vérifie si un thème a été sauvegardé dans le localStorage
+    if (savedTheme) {
+        if (savedTheme === "sombre") {
+            document.body.classList.add("theme-sombre"); // Applique le thème sombre
+            document.getElementById("toggleTheme").innerText = "☀️"; // Change le texte du bouton
+        } else {
+            document.body.classList.remove("theme-sombre"); // Applique le thème clair
+            document.getElementById("toggleTheme").innerText = "🌙"; // Change le texte du bouton
+        }
+    } else {
+        // Si aucun thème n'est sauvegardé, on vérifie les préférences du système
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        if (prefersDarkScheme) {
+            document.body.classList.add("theme-sombre"); // Applique le thème sombre par défaut
+            document.getElementById("toggleTheme").innerText = "☀️"; // Change le texte du bouton
+            localStorage.setItem("theme", "sombre"); // Sauvegarde le thème sombre
+        } else {
+            document.body.classList.remove("theme-sombre"); // Applique le thème clair par défaut
+            document.getElementById("toggleTheme").innerText = "🌙"; // Change le texte du bouton
+            localStorage.setItem("theme", "clair"); // Sauvegarde le thème clair
+        }
+    }
+}
+
+// Écouteur d'événement pour s'assurer que le DOM est chargé avant d'appeler la fonction
+document.addEventListener("DOMContentLoaded", () => {
+    VerifVarPersist(); // Appelle la fonction pour vérifier la variable persistante
+});
+
+

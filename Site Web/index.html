@@ -18,7 +18,8 @@
         <form id="formulaireJSON">
             <label for="nomFichier">Nom du fichier JSON :</label>
             <input type="text" id="nomFichier" placeholder="exemple.json" onkeypress="VerifEntrer(event)">
-            <button type="button" onclick="ChargerDonneeJeu()">Charger</button>
+            <button id="charger" type="button" onclick="ChargerDonneeJeu()">Charger</button>
+            <button id="reset" type="button" onclick="ResetJeu()">↺</button>
         </form>
 
         <!-- Boutons pour changer la vue et le thème -->
