@@ -3,11 +3,60 @@ let currentTurnIndex = 0; // Index du tour actuel, commence à 0
 let scores = [0, 0]; // Initialisation des scores cumulés pour chaque joueur
 let bonuses = [0, 0]; // Initialisation des bonus pour chaque joueur
 
+function afficherGif() {
+    // Crée le conteneur pour le GIF
+    const gifContainer = document.createElement("div");
+    gifContainer.id = "gifContainer";
+
+    // Crée l'élément image
+    const gifImage = document.createElement("img");
+    gifImage.src = "Images/lanceDes.gif"; // Utilise le chemin du GIF passé en argument
+    gifImage.alt = "GIF au Centre";
+
+    // Ajoute l'image au conteneur
+    gifContainer.appendChild(gifImage);
+
+    // Crée un overlay pour assombrir le reste de la page
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // Fond semi-transparent
+    overlay.style.zIndex = "999"; // Assure que l'overlay soit en dessous du GIF
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+
+    // Ajoute le conteneur du GIF à l'overlay
+    overlay.appendChild(gifContainer);
+
+    // Ajoute l'overlay au body
+    document.body.appendChild(overlay);
+
+    // Ajoute des styles pour le conteneur du GIF
+    gifContainer.style.zIndex = "1000"; // Assure que le GIF soit au-dessus de l'overlay
+    gifContainer.style.display = "flex";
+    gifContainer.style.justifyContent = "center";
+    gifContainer.style.alignItems = "center";
+    gifContainer.style.position = "absolute"; // Change position en absolu pour centrer dans l'overlay
+    gifContainer.style.top = "50%";
+    gifContainer.style.left = "50%";
+    gifContainer.style.transform = "translate(-50%, -50%)";
+
+    // Suppression de l'overlay après un certain temps (par exemple 3 secondes)
+    setTimeout(() => {
+        document.body.removeChild(overlay); // Supprime l'overlay du body
+    }, 2500); // Durée d'affichage en millisecondes (3 secondes ici)
+    ChargerDonneeJeu()
+}
+
 // Fonction pour vérifier si la touche "Entrée" est pressée
 function VerifEntrer(event) {
     if (event.key === "Enter") { // Vérifie si la touche appuyée est "Entrée"
         event.preventDefault(); // Empêche le comportement par défaut du formulaire (soumission)
-        ChargerDonneeJeu(); // Appelle la fonction pour charger les données du jeu
+        afficherGif(); // Appelle la fonction pour charger les données du jeu
     }
 }
 function ResetJeu() {
@@ -26,8 +75,8 @@ function ResetJeu() {
     // Réinitialiser la vue
     document.getElementById("vueGlobale").style.display = "none"; // Masquer la vue globale
     document.getElementById("vueTour").style.display = "none"; // Masquer la vue des tours
-    document.querySelectorAll('#boutonsVue button')[0].classList.add("disabled"); // Désactiver le bouton de vue globale
-    document.querySelectorAll('#boutonsVue button')[2].classList.add("disabled"); // Désactiver le bouton de vue par tour
+    document.querySelectorAll('#boutonsVue button')[0].style.display = "none"; // Désactiver le bouton de vue globale
+    document.querySelectorAll('#boutonsVue button')[2].style.display = "none"; // Désactiver le bouton de vue par tour
 
     // Si vous avez un champ pour le nom du fichier, réinitialiser également
     document.getElementById("nomFichier").value = ""; // Vider le champ de saisie du nom du fichier
@@ -40,8 +89,8 @@ async function ChargerDonneeJeu() {
         const response = await fetch(fileName); // Charge le fichier JSON
         gameData = await response.json(); // Convertit la réponse en objet JSON
         const boutonvue = document.querySelectorAll('#boutonsVue button'); // Sélectionne tous les éléments bouton dans l'élément avec l'ID 'boutonsVue'
-        boutonvue[0].classList.remove('disabled'); // Retire la classe 'disabled' du premier bouton
-        boutonvue[2].classList.remove('disabled'); // Retire la classe 'disabled' du troisième bouton
+        boutonvue[0].style.display = "flex"; // Retire la classe 'disabled' du premier bouton
+        boutonvue[2].style.display = "flex"; // Retire la classe 'disabled' du troisième bouton
 
     } catch (error) {
         console.error("Erreur de chargement des données JSON :", error); // Log l'erreur dans la console

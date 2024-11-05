@@ -18,15 +18,15 @@
         <form id="formulaireJSON">
             <label for="nomFichier">Nom du fichier JSON :</label>
             <input type="text" id="nomFichier" placeholder="exemple.json" onkeypress="VerifEntrer(event)">
-            <button id="charger" type="button" onclick="ChargerDonneeJeu()">Charger</button>
+            <button id="charger" type="button" onclick="afficherGif()">Charger</button>
             <button id="reset" type="button" onclick="ResetJeu()">↺</button>
         </form>
 
         <!-- Boutons pour changer la vue et le thème -->
         <div id="boutonsVue">
-            <button id="btnvueglobale" onclick="AfficherVueGlobale()" class="disabled">Vue Globale</button> <!-- Affiche la vue globale -->
+            <button id="btnvueglobale" onclick="AfficherVueGlobale()" style="display: none;">Vue Globale</button> <!-- Affiche la vue globale -->
             <button id="toggleTheme" onclick="ChangerTheme()">☀️</button> <!-- Change le thème entre sombre et clair -->
-            <button id="btnvuetour"onclick="AfficherVueParTour()" class="disabled">Vue Tour par Tour</button> <!-- Affiche la vue tour par tour -->
+            <button id="btnvuetour"onclick="AfficherVueParTour()" style="display: none;">Vue Tour par Tour</button> <!-- Affiche la vue tour par tour -->
         </div>
     </header>
 
