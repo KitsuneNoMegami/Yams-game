@@ -20,7 +20,8 @@ async function afficherGif() {
 
     // Crée l'élément image
     const gifImage = document.createElement("img");
-    gifImage.src = "Images/lanceDes.gif"; // Utilise le chemin du GIF passé en argument
+
+    gifImage.src = "./Images/lanceDes.gif"; // Utilise le chemin du GIF passé en argument
     gifImage.alt = "GIF au Centre";
 
     // Ajoute l'image au conteneur
@@ -174,7 +175,7 @@ function AfficherTourActuel() {
     // let chemin = Images/Dés_{localStorage.getItem("theme")}/joueur1Result.dice.png
     let html1 = "";
     for (let i = 0; i <= joueur1Result.dice.length-1; i++)
-        html1 += `<img src="Images/Dés_${localStorage.getItem("theme")}/${joueur1Result.dice[i]}.png" height=30rem wight=30rem>`
+        html1 += `<img src="./Images/Dés_${localStorage.getItem("theme")}/${joueur1Result.dice[i]}.png" height=30rem wight=30rem>`
     let html2 = "";
     for (let i = 0; i <= joueur2Result.dice.length-1; i++)
         html2 += `<img src="Images/Dés_${localStorage.getItem("theme")}/${joueur2Result.dice[i]}.png" height=30rem wight=30rem>`
