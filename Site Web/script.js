@@ -185,13 +185,13 @@ function AfficherTourActuel() {
         <div class="players">
             <div class="player">
                 <h4>${joueur1.pseudo} :</h4>
-                <p>- Dés : ${html1}</p>
+                <p>${html1}</p>
                 <p> - Challenge : ${joueur1Result.challenge}</p>
                 <p> - Points : ${joueur1Result.score}</p>
             </div>
             <div class="player">
                 <h4>${joueur2.pseudo} :</h4>
-                <p> - Dés : ${html2}</p>
+                <p>${html2}</p>
                 <p> - Challenge : ${joueur2Result.challenge}</p>
                 <p> - Points : ${joueur2Result.score}</p>
             </div>

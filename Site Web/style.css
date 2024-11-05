@@ -36,21 +36,21 @@ header {
 }
 
 #formulaireJSON {
-    flex: 1; /* Permet aux inputs de s'étendre */
+    flex: 1; 
 }
 
 #charger {
     display:flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     width: 87%;
     justify-content: center;
 
 }
 #reset {
     display: flex;
-    flex-direction: column;
-    width: auto;
-    justify-content: center;
+    flex-direction: row;
+    width: 2rem;
+    text-align: center;
     
 }
 
@@ -250,6 +250,9 @@ button:hover {
         flex-direction: row;
         height: auto;
     }
+    #reset {
+        width: 1%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -271,5 +274,9 @@ button:hover {
 
     .navigation {
         margin: 0.5rem 0; /* Ajoute un peu d'espace entre les boutons */
+    }
+
+    #reset {
+        width: 1%;
     }
 }
