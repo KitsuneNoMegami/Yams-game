@@ -146,11 +146,17 @@ class YAMS {
     Console.WriteLine("[13] Chance : "+DejaFait(Scores[12],12,J));
 
     Console.WriteLine(Vert(J.nom+", faites votre choix de challenge (1-13)"));
-    int ch = int.Parse(Console.ReadLine());
-    while (ch>13 || J.Challenges[ch-1] == true) {
-      Console.WriteLine(Rouge("Choix incorrect ou challenge déjà réalisé"));
-      ch = int.Parse(Console.ReadLine());
+
+    int ch = 0;
+    bool valide = false;
+    while (valide==false) {
+      if (int.TryParse(Console.ReadLine(), out ch) && 0<ch &&ch<=13 && J.Challenges[ch-1] == false) {
+        valide=true;
+      } else {
+        Console.WriteLine(Rouge("Choix incorrect ou challenge déjà réalisé"));
+      }
     }
+
     J.Challenges[ch-1] = true;
     if (ch<7) {
       J.score_min=J.score_min+ Scores[ch-1];
@@ -175,11 +181,15 @@ class YAMS {
 
   public static bool[] ChoixRelance() {
     bool[] Change = new bool[5] {false,false,false,false,false};
-    Console.WriteLine("Entrez les numéros de dés que vous voulez relancer (1-5) ou 0 pour valider");
-    int c = int.Parse(Console.ReadLine());
-    while (0<c && c<6) {
-      Change[c-1] = true;
-      c = int.Parse(Console.ReadLine());
+    Console.WriteLine("Entrez les numéros de dés que vous voulez relancer (1-5) ou autre pour valider");
+    int c;
+    bool fin = false;
+    while (fin==false) {
+      if (int.TryParse(Console.ReadLine(), out c) && 0<c && c<6) {
+        Change[c-1] = true;
+      } else {
+        fin = true;
+      }
     }
     return Change;
   }
