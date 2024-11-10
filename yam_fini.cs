@@ -135,16 +135,16 @@ class YAMS {
   public static void AfficheChallenges(Joueur J) {
     Console.WriteLine("Liste des challenges : ");
     for (int i=1; i<=6; i++) {
-      Console.WriteLine("["+i+"]"+" Nombre de "+i+DejaFait(i-1,J));
+      Console.WriteLine("["+i+"]"+" Nombre de "+i + " (Somme des dés ayant obtenu "+i + ")"+DejaFait(i-1,J));
     }
 
-    Console.WriteLine("[7] Brelan"+DejaFait(6,J));
-    Console.WriteLine("[8] Carré"+DejaFait(7,J));
-    Console.WriteLine("[9] Full"+DejaFait(8,J));
-    Console.WriteLine("[10] Petite Suite"+DejaFait(9,J));
-    Console.WriteLine("[11] Grande Suite"+DejaFait(10,J));
-    Console.WriteLine("[12] Yam's"+DejaFait(11,J));
-    Console.WriteLine("[13] Chance"+DejaFait(12,J));
+    Console.WriteLine("[7] Brelan (Sommes des 3 dés identiques)"+DejaFait(6,J));
+    Console.WriteLine("[8] Carré (Sommes des 4 dés identiques)"+DejaFait(7,J));
+    Console.WriteLine("[9] Full (3 dés de même valeur + 2 dés de même valeur - 25 pts)"+DejaFait(8,J));
+    Console.WriteLine("[10] Petite Suite (Une suite de 4 nombres - 30 pts)"+DejaFait(9,J));
+    Console.WriteLine("[11] Grande Suite (Une suite de 5 nombres - 40 pts)"+DejaFait(10,J));
+    Console.WriteLine("[12] Yam's (5 dés identique - 50 pts)"+DejaFait(11,J));
+    Console.WriteLine("[13] Chance (La somme des dés obtenus)"+DejaFait(12,J));
   }
   public static Joueur ChoixChallenge(Joueur J, int[] T) {
     int[] Scores = new int[13] {0,0,0,0,0,0,Brelan(T),Carre(T),Full(T),PetiteSuite(T),GrandeSuite(T),Yams(T),Chance(T)};
@@ -282,6 +282,7 @@ class YAMS {
 
       return TabJ;
   }
+
 
 
 
