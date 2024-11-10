@@ -135,7 +135,7 @@ class YAMS {
   public static void AfficheChallenges(Joueur J) {
     Console.WriteLine("Liste des challenges : ");
     for (int i=1; i<=6; i++) {
-      Console.WriteLine("["+i+"]"+"Nombre de "+i+DejaFait(i-1,J));
+      Console.WriteLine("["+i+"]"+" Nombre de "+i+DejaFait(i-1,J));
     }
 
     Console.WriteLine("[7] Brelan"+DejaFait(6,J));
@@ -150,7 +150,7 @@ class YAMS {
     int[] Scores = new int[13] {0,0,0,0,0,0,Brelan(T),Carre(T),Full(T),PetiteSuite(T),GrandeSuite(T),Yams(T),Chance(T)};
     for (int i=1; i<=6; i++) {
       Scores[i-1] = NbDansTab(T,i)*i;
-      Console.WriteLine("["+i+"]"+"Nombre de "+i+" : "+Scores[i-1]+DejaFait(i-1,J));
+      Console.WriteLine("["+i+"]"+" Nombre de "+i+" : "+Scores[i-1]+DejaFait(i-1,J));
     }
 
     Console.WriteLine("[7] Brelan : "+Scores[6]+DejaFait(6,J));
