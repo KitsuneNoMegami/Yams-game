@@ -260,26 +260,27 @@ class YAMS {
   }
   
   public static Joueur[] ResultatFin(Joueur[] TabJ) {
-    Console.WriteLine(Rouge(" --- PARTIE TERMINEE --- "));
-    for (int j=0; j<2; j++) {
-      Joueur J = TabJ[j];
-      J.score_total=J.score;
-      if (J.score_min>=63) {
-        J.score_total=J.score_total+35;
-        Console.WriteLine("Joueur "+J.num+" "+J.nom+" : "+J.score+Vert(" + 35")+" = "+J.score_total);
-      } else {
-        Console.WriteLine("Joueur "+J.num+" "+J.nom+" : "+J.score_total);
+      Console.WriteLine(Rouge(" --- PARTIE TERMINEE --- "));
+      for (int j = 0; j < 2; j++) {
+          TabJ[j].score_total = TabJ[j].score;
+          if (TabJ[j].score_min >= 63) {
+              TabJ[j].score_total += 35;
+              Console.WriteLine("Joueur " + TabJ[j].num + " " + TabJ[j].nom + " : " + TabJ[j].score + Vert(" + 35") + " = " + TabJ[j].score_total);
+          } else {
+              Console.WriteLine("Joueur " + TabJ[j].num + " " + TabJ[j].nom + " : " + TabJ[j].score_total);
+          }
       }
-    }
-    Console.WriteLine();
+      Console.WriteLine();
 
-    if (TabJ[0].score_total > TabJ[1].score_total) {
-      Console.WriteLine(Vert("Bravo "+TabJ[0].nom+ " !"));
-    } else {
-      Console.WriteLine(Vert("Bravo "+TabJ[1].nom+ " !"));
-    }
+      if (TabJ[0].score_total > TabJ[1].score_total) {
+          Console.WriteLine(Vert("Bravo " + TabJ[0].nom + " !"));
+      } else if (TabJ[0].score_total < TabJ[1].score_total) {
+          Console.WriteLine(Vert("Bravo " + TabJ[1].nom + " !"));
+      } else {
+          Console.WriteLine(Vert("Match nul !"));
+      }
 
-    return TabJ;
+      return TabJ;
   }
 
 
