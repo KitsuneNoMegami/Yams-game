@@ -1,10 +1,7 @@
 using System;
-//using System.Runtime.ConstrainedExecution;
-//using System.Text;
 using System.Threading;
 using Internal;
-//using System.Threading.Tasks;
-//using Internal;
+
 
 struct Joueur {
   public int num;
