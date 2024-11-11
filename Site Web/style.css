@@ -1,0 +1,421 @@
+* {
+    box-sizing:border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body h1 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+header {
+    width: 100%;
+    max-width: 60%;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1rem;
+}
+
+#formulaireJSON {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: baseline;
+    align-self: center;
+    flex:1; 
+
+}
+
+#charger {
+    display:flex;
+    flex-direction:row-reverse;
+    width: 80%;
+    justify-content: center;
+
+}
+#reset {
+    display: flex;
+    flex-direction:row-reverse;
+    justify-content: center;
+    width: 15%;
+    
+}
+
+.des {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 0.18rem;
+    flex-direction: row;
+    
+}
+
+
+label {
+    width: 100%;
+    text-align: center;
+}
+
+#nomFichier {
+    text-align: center;
+}
+
+input {
+    width: 98%;
+}
+
+#boutonsVue {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+section {
+    width: auto;
+    border: 1px solid #ddd;
+    padding: 5%;
+    margin-bottom: 5%;
+    background-color: #f9f9f9;
+    border-radius: 1rem;
+    transition: background-color 0.3s, border-color 0.3s;
+    height: 25%;
+}
+
+.tour-navigation-container {
+    display: flex;
+    width: auto;
+    align-self: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.navigation {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 1rem;
+}
+
+.players {
+    display: flex;
+    text-align: center;
+}
+
+.player {
+    flex: 1;
+    margin: 0 10px;
+}
+
+section h3 {
+    text-align: center;
+}
+
+.tour-actuel {
+    padding: 2rem;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+#finalScore {
+    margin-top: 2rem;
+    font-weight: bold;
+}
+
+.invisible {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+
+}
+
+button {
+    padding: 1rem;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+section button {
+    background-color: #4CAF50;
+    height: 20rem;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+#vueTour {
+    padding: 2rem;
+    flex-direction: column;
+    border: 1px solid #000;
+}
+
+#vueGlobale {
+    padding: 2rem;
+    flex-direction: column;
+    border: 1px solid #000;
+}
+#scoresJoueurs {
+    text-align: center;
+}
+.theme-sombre {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.theme-sombre header {
+    background-color: #1f1f1f;
+}
+
+.theme-sombre section {
+    background-color: #1c1c1c;
+    border-color: #444;
+}
+
+.theme-sombre .tour-actuel {
+    background-color: #1c1c1c;
+    border-color: #444;
+}
+
+.theme-sombre button {
+    background-color: #333;
+    color: #ffffff;
+}
+
+.theme-sombre button:hover {
+    background-color: #555;
+}
+
+.god-mod {
+    background-color: #0A1828;
+    color: #BFA181;
+}
+
+.god-mod header {
+    background-color: #122a46;
+}
+
+.god-mod section {
+    background-color: #0A1828;
+    border-color: #BFA181;
+}
+
+.god-mod .tour-actuel {
+    background-color: #122a46;
+    border-color: #122a46;
+}
+
+.god-mod header button {
+    background-color: #0A1828;
+    color: #f7d0a7;
+}
+
+.god-mod section button {
+    background-color: #122a46;
+    color: #f7d0a7;
+}
+
+.god-mod button:hover {
+    background-color: #7e6a55;
+}
+
+.god-mod .players {
+    background-color: #0A1828;
+}
+
+.god-mod .player {
+    background-color: #0A1828;
+}
+
+.god-mod #vueGlobale {
+    border: 1px solid #7e6a55;
+}
+.god-mod #vueTour {
+    border: 1px solid #7e6a55;
+}
+
+.god-mod .invisible {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.god-mod .disabled {
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+
+.custom-alert {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #132e4de1;
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.custom-alert .alert-content {
+    background-color: #122a46;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+}
+
+.custom-alert #alertMessage {
+    font-size: 18px;
+    color: #7e6a55;
+}
+
+.custom-alert #closeAlertButton {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #0A1828;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-alert #closeAlertButton:hover {
+    background-color: #7e6a55;
+}
+
+.cookie-banner {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #132e4de1;
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.cookie-banner ul {
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 1.5em;
+}
+
+.cookie-buttons {
+    margin-top: 10px;
+}
+
+.cookie-buttons button {
+    margin: 0 5px;
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .tour-navigation-container {
+        flex-direction: column;
+    }
+    .navigation {
+        height: auto;
+    }
+
+    #formulaireJSON {
+        flex-direction: column; 
+        align-items: center;
+    }
+
+    section {
+        padding: 2rem;
+    
+    }
+    .current-turn {
+        padding: 1.5rem;
+    }
+
+    .players {
+        flex-direction: column;
+    }
+    
+    .player {
+        margin: 1rem 0;
+    }
+    
+    #boutonsVue {
+        flex-direction: column;
+    }
+
+    button {
+        padding: 1rem; 
+    }
+
+    section button {
+        flex-direction: row;
+        height: auto;
+    }
+    #reset {
+        width: 1%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 1rem;
+    }
+    
+    button {
+        padding: 0.8rem;
+    }
+
+    section {
+        padding: 1rem; 
+    }
+
+    .tour-navigation-container {
+        flex-direction: column; 
+    }
+
+    .navigation {
+        margin: 0.5rem 0; 
+    }
+
+    #reset {
+        width: 1%;
+    }
+}
