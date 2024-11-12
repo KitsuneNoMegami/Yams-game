@@ -5,16 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Title Tag Optimization -->
     <title>Score Yam's - Fiche de Résultat et Suivi de Partie</title>
     
-    <!-- Meta Description for SEO -->
     <meta name="description" content="Découvrez notre fiche de score Yam's, une solution simple et interactive pour suivre vos parties de Yam's, avec vue globale et tour par tour. Téléchargez ou consultez vos scores en ligne !">
     
-    <!-- Favicon -->
     <link rel="icon" href="./Images/Yam's.ico"/>
     
-    <!-- CSS and JS -->
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
@@ -22,7 +18,6 @@
 <body>
     <h1>Fiche de Résultat pour le Jeu de Yam's</h1>
 
-    <!-- Content for SEO and Accessibility -->
     <header>
         <form id="formulaireJSON" aria-label="Charger une partie sauvegardée">
             <label for="nomFichier">Nom du fichier JSON :</label>
@@ -38,13 +33,11 @@
         </div>
     </header>
 
-    <!-- Section for Global View -->
     <section id="vueGlobale" style="display: none;">
         <h2>Vision Globale d'une Partie de Yam's</h2>
         <div id="resumeGlobal"></div>
     </section>
 
-    <!-- Section for Tour-by-Tour View -->
     <section id="vueTour" style="display: none;">
         <div class="tour-navigation-container">
             <div class="navigation gauche">
@@ -63,7 +56,6 @@
         </div>
     </section>
     
-    <!-- Custom Alert for User Notifications -->
     <div id="customAlert" class="custom-alert">
         <div class="alert-content">
             <span id="alertMessage">Message de l'alerte ici</span>
