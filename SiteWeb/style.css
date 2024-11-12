@@ -21,10 +21,6 @@ header nav ul li {
     align-items: center;
     padding: 1rem;
 }
-header nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
 
 nav ul {
     display: flex;
@@ -32,19 +28,25 @@ nav ul {
     padding: 0;
 }
 
-header nav ul li a:hover {
-    background-color: #b6acb6;   
+#header1 nav ul li a {
+    color: #080808;
+    text-decoration: none;
+}
+
+#header1 nav ul li a:hover {
+    background-color: #a19999;   
     border-radius: 0.5rem;
     
 }
 
-header nav {
+#header1 nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    border-radius: 5%;
 }
-header {
+#header2 {
     width: 100%;
     max-width: 60%;
     margin-bottom: 2rem;
@@ -238,6 +240,17 @@ button:hover {
 
 .theme-sombre button:hover {
     background-color: #555;
+}
+
+.theme-sombre #header1 nav ul li a {
+    color: #faf3f3;
+    text-decoration: none;
+}
+
+.theme-sombre #header1 nav ul li a:hover {
+    background-color: #746464;   
+    border-radius: 0.5rem;
+    
 }
 
 .god-mod {
