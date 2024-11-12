@@ -15,7 +15,35 @@ body h1 {
     text-align: center;
     font-size: 2rem;
 }
+header nav ul li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+}
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
 
+nav ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li a:hover {
+    background-color: #b6acb6;   
+    border-radius: 0.5rem;
+    
+}
+
+header nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 header {
     width: 100%;
     max-width: 60%;
