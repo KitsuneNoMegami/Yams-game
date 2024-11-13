@@ -1,57 +1,96 @@
-* {
-    box-sizing:border-box;
+@font-face {
+    font-family: "Playfair Display Italic";
+    src: url("./Images/police/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+    font-weight: normal;
+    font-style: italic;
 }
 
+html{ 
+    background-image: url("./Images/texture.png") ;
+}
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    transition: background-color 0.3s, color 0.3s;
+    font-family: "Playfair Display Italic", sans-serif;
+    background-color: rgba(14, 189, 101, 0.6);
+    width: 80%;
+    padding: 1em;
+    margin: auto;
+    box-shadow: 0 0 6em rgba(0, 0, 0);
+
 }
 
-body h1 {
-    text-align: center;
-    font-size: 2rem;
-}
-header nav ul li {
+
+/* Page d'acceuil */
+#navbar {
     display: flex;
     flex-direction: row;
+    position: sticky;
     align-items: center;
-    padding: 1rem;
-}
-
-nav ul {
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-#header1 nav ul li a {
-    color: #080808;
-    text-decoration: none;
-}
-
-#header1 nav ul li a:hover {
-    background-color: #a19999;   
-    border-radius: 0.5rem;
+    justify-content: space-evenly;
+    width: 100%;
+    line-height: 3em;
+    background-color: #0a8f4c;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0);
     
+    a {
+        display: flex;
+        text-decoration: none;
+        color: black;   
+    }
+    a:hover {
+        background-color: #0ebd65;
+        border-radius: 0.2rem;
+        outline: 0.2em solid #0ebd65;
+    }
+    #green_text {
+        opacity: 0;
+    }
 }
 
-#header1 nav {
+h2 {
+    text-align: center;
+}
+p {
+    text-align: justify;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+
+}
+
+/* Page de telechargement  */
+#img-dl {
+    width: 22rem;
+    height: 8rem;
+}
+#btn-dl {
+    width: 22rem;
+    height: 8rem;
+}
+#div-btn-dl {
+    display: flex;
+    justify-content: center;
+}
+
+#div-btn-dl button {
+    margin: auto;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5%;
+    justify-content: center;
 }
+
+
+
+/* Page resultat */
+
 #header2 {
     width: 100%;
-    max-width: 60%;
     margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     border-radius: 1rem;
 }
@@ -61,16 +100,15 @@ nav ul {
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 1rem;
-    align-items: baseline;
-    align-self: center;
     flex:1; 
+    justify-content: center;
 
 }
 
 #charger {
     display:flex;
     flex-direction:row-reverse;
-    width: 80%;
+    width: 100%;
     justify-content: center;
 
 }
@@ -78,7 +116,9 @@ nav ul {
     display: flex;
     flex-direction:row-reverse;
     justify-content: center;
-    width: 15%;
+    align-items: center;
+    width: auto;
+    height: auto;
     
 }
 
@@ -102,7 +142,8 @@ label {
 }
 
 input {
-    width: 98%;
+    width: 100%;
+    border-radius: 0.5rem;
 }
 
 #boutonsVue {
@@ -112,12 +153,12 @@ input {
     margin-top: 1rem;
 }
 
-section {
+#vueGlobale, #vueTour {
     width: auto;
-    border: 1px solid #ddd;
+    border: 1px solid;
     padding: 5%;
     margin-bottom: 5%;
-    background-color: #f9f9f9;
+    background-color: rgba(14, 189, 101, 0);
     border-radius: 1rem;
     transition: background-color 0.3s, border-color 0.3s;
     height: 25%;
@@ -156,8 +197,8 @@ section h3 {
 
 .tour-actuel {
     padding: 2rem;
-    border: 1px solid #ddd;
-    background-color: #fff;
+    border: 1px solid #000;
+    background-color: rgba(14, 189, 101, 0);
     border-radius: 0.5rem;
     flex-grow: 1;
     transition: background-color 0.3s, border-color 0.3s;
@@ -214,177 +255,7 @@ button:hover {
 #scoresJoueurs {
     text-align: center;
 }
-.theme-sombre {
-    background-color: #121212;
-    color: #ffffff;
-}
 
-.theme-sombre header {
-    background-color: #1f1f1f;
-}
-
-.theme-sombre section {
-    background-color: #1c1c1c;
-    border-color: #444;
-}
-
-.theme-sombre .tour-actuel {
-    background-color: #1c1c1c;
-    border-color: #444;
-}
-
-.theme-sombre button {
-    background-color: #333;
-    color: #ffffff;
-}
-
-.theme-sombre button:hover {
-    background-color: #555;
-}
-
-.theme-sombre #header1 nav ul li a {
-    color: #faf3f3;
-    text-decoration: none;
-}
-
-.theme-sombre #header1 nav ul li a:hover {
-    background-color: #746464;   
-    border-radius: 0.5rem;
-    
-}
-
-.god-mod {
-    background-color: #0A1828;
-    color: #BFA181;
-}
-
-.god-mod header {
-    background-color: #122a46;
-}
-
-.god-mod section {
-    background-color: #0A1828;
-    border-color: #BFA181;
-}
-
-.god-mod .tour-actuel {
-    background-color: #122a46;
-    border-color: #122a46;
-}
-
-.god-mod header button {
-    background-color: #0A1828;
-    color: #f7d0a7;
-}
-
-.god-mod section button {
-    background-color: #122a46;
-    color: #f7d0a7;
-}
-
-.god-mod button:hover {
-    background-color: #7e6a55;
-}
-
-.god-mod .players {
-    background-color: #0A1828;
-}
-
-.god-mod .player {
-    background-color: #0A1828;
-}
-
-.god-mod #vueGlobale {
-    border: 1px solid #7e6a55;
-}
-.god-mod #vueTour {
-    border: 1px solid #7e6a55;
-}
-
-.god-mod .invisible {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.god-mod .disabled {
-    pointer-events: none;
-    opacity: 0.3;
-}
-
-
-.custom-alert {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #132e4de1;
-    padding: 20px;
-    border-radius: 8px;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.custom-alert .alert-content {
-    background-color: #122a46;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    flex: 1;
-}
-
-.custom-alert #alertMessage {
-    font-size: 18px;
-    color: #7e6a55;
-}
-
-.custom-alert #closeAlertButton {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #0A1828;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.custom-alert #closeAlertButton:hover {
-    background-color: #7e6a55;
-}
-
-.cookie-banner {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #132e4de1;
-    padding: 20px;
-    border-radius: 8px;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-.cookie-banner ul {
-    list-style-type: disc;
-    margin: 0;
-    padding-left: 1.5em;
-}
-
-.cookie-buttons {
-    margin-top: 10px;
-}
-
-.cookie-buttons button {
-    margin: 0 5px;
-    padding: 0.5em 1em;
-    cursor: pointer;
-}
 @media (max-width: 768px) {
     header {
         margin-bottom: 1.5rem;
@@ -416,7 +287,7 @@ button:hover {
     
     .player {
         margin: 1rem 0;
-    }
+    }œ
     
     #boutonsVue {
         flex-direction: column;
@@ -430,12 +301,22 @@ button:hover {
         flex-direction: row;
         height: auto;
     }
-    #reset {
-        width: 1%;
-    }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 675px) {
+    #navbar {
+        text-align: center;
+        display: flex;
+        position: sticky;
+        top: 0.1em;
+        justify-content: center;
+        width: 100%;
+        line-height: 0.8999999rem;
+        background-color: #0a8f4c;
+        border-radius: 1rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0);
+    }
+
     body {
         padding: 1rem;
     }
@@ -454,9 +335,5 @@ button:hover {
 
     .navigation {
         margin: 0.5rem 0; 
-    }
-
-    #reset {
-        width: 1%;
     }
 }

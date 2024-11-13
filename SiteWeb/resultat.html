@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Score Yam's - Fiche de Résultat et Suivi de Partie</title>
+        
+        <meta name="description" content="Découvrez notre fiche de score Yam's, une solution simple et interactive pour suivre vos parties de Yam's, avec vue globale et tour par tour. Téléchargez ou consultez vos scores en ligne !">
+        
+        <link rel="icon" href="./Images/Yam's.ico"/>
+        
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
+    </head>
+<body>
+    <header id="navbar">
+        
+        <a href="acceuil.html"><em id="green_text"> -- </em>Accueil<em id="green_text"> -- </em></a>
+        <p id="green_text">- - - - - - </p>
+        <a id="center_link" href="telechargement.html"><em id="green_text"> -- </em>Téléchargement<em id="green_text"> -- </em></a>
+        <p id="green_text">- - - - - - </p>
+        <a class="current-menu" href="resultat.html"><em id="green_text"> -- </em>Fiche de Résultat<em id="green_text"> -- </em></a>
+        <p id="green_text">- - </p>
+    </header>
+    
+    <header id="header2">
+        <p> </p>
+        <p> </p>
+        <form id="formulaireJSON" aria-label="Charger une partie sauvegardée">
+            <label for="nomFichier">Nom du fichier JSON :</label>
+            <input type="text" id="nomFichier" placeholder="exemple.json" onkeypress="VerifEntrer(event)">
+            <button id="charger" type="button" onclick="ChargerDonneeJeu()">Charger</button>
+        </form>
+
+        <div id="boutonsVue">
+            <button id="btnvueglobale" onclick="AfficherVueGlobale()" class="invisible">Vue Globale</button>
+            <button id="reset" type="button" onclick="ResetJeu()">Reset</button>
+            <button id="btnvuetour" onclick="AfficherVueParTour()" class="invisible">Vue Tour par Tour</button>
+        </div>
+    </header>
+
+    <section id="vueGlobale" style="display: none;">
+        <h2>Vision Globale d'une Partie de Yam's</h2>
+        <div id="resumeGlobal"></div>
+    </section>
+
+    <section id="vueTour" style="display: none;">
+        <div class="tour-navigation-container">
+            <div class="navigation gauche">
+                <button onclick="AfficherTourPrecedent()" data-label="Tour Précédent">⬅️</button>
+            </div>
+            <div class="tour-actuel" id="tourActuel"></div>
+            <div class="navigation droite">
+                <button onclick="AfficherTourSuivant()" data-label="Tour Suivant">➡️</button>
+            </div>
+        </div>
+
+        <div id="scoresJoueurs">
+            <h3>Scores Cumulés</h3>
+            <div id="scoreJoueur1"></div>
+            <div id="scoreJoueur2"></div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script>
+    // Empêcher le défilement en dehors de la page
+    document.addEventListener('wheel', function(event) {
+        if ((window.scrollY === 0 && event.deltaY < 0) || 
+            (window.innerHeight + window.scrollY >= document.body.offsetHeight && event.deltaY > 0)) {
+            event.preventDefault(); // Empêche le défilement au-delà de la page
+        }
+    }, { passive: false });
+</script>
