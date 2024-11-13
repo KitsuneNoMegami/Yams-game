@@ -22,30 +22,39 @@ body {
 /* Page d'acceuil */
 #navbar {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; 
     position: sticky;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     width: 100%;
     line-height: 3em;
     background-color: #0a8f4c;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0);
     
+    .navbar-links {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+    
     a {
         display: flex;
         text-decoration: none;
-        color: black;   
+        color: black;
     }
+    
     a:hover {
         background-color: #0ebd65;
         border-radius: 0.2rem;
         outline: 0.2em solid #0ebd65;
     }
+    
     #green_text {
         opacity: 0;
     }
 }
+
 
 h2 {
     text-align: center;
