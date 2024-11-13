@@ -31,9 +31,11 @@ body {
     background-color: #0a8f4c;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0);
+    margin: 0 auto;
     
     .navbar-links {
         display: flex;
+        text-align:center;
         justify-content: space-evenly;
         width: 100%;
     }
@@ -42,6 +44,7 @@ body {
         display: flex;
         text-decoration: none;
         color: black;
+        width: 10rem;
     }
     
     a:hover {
