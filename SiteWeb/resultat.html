@@ -46,14 +46,14 @@
     <section id="vueTour" style="display: none;">
         <div class="tour-navigation-container">
             <div class="tour-actuel" id="tourActuel"></div>
+            <div class="navigation">
+                <button onclick="AfficherTourPrecedent()" data-label="Tour Précédent">⬅️</button>
+                <button onclick="AfficherTourSuivant()" data-label="Tour Suivant">➡️</button>
+            </div>
             <div id="scoresJoueurs">
                 <h3>Scores Cumulés</h3>
                 <div id="scoreJoueur1"></div>
                 <div id="scoreJoueur2"></div>
-            </div>
-            <div class="navigation">
-                <button onclick="AfficherTourPrecedent()" data-label="Tour Précédent">⬅️</button>
-                <button onclick="AfficherTourSuivant()" data-label="Tour Suivant">➡️</button>
             </div>
         </div>
     </section>
