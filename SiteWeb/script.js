@@ -166,44 +166,44 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function afficherGif(path, duree, foncname){
-    const existingContainer = document.getElementById("gifContainer");
-    if (existingContainer) {
-        document.body.removeChild(existingContainer);
-    }
-    const gifContainer = document.createElement("div");
-    gifContainer.id = "gifContainer";
+// async function afficherGif(path, duree, foncname){
+//     const existingContainer = document.getElementById("gifContainer");
+//     if (existingContainer) {
+//         document.body.removeChild(existingContainer);
+//     }
+//     const gifContainer = document.createElement("div");
+//     gifContainer.id = "gifContainer";
 
-    const gifImage = document.createElement("img");
-    gifImage.src = path;
-    gifImage.alt = "GIF au Centre";
-    gifContainer.appendChild(gifImage);
+//     const gifImage = document.createElement("img");
+//     gifImage.src = path;
+//     gifImage.alt = "GIF au Centre";
+//     gifContainer.appendChild(gifImage);
 
-    const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    overlay.style.zIndex = "999";
-    overlay.style.display = "flex";
-    overlay.style.justifyContent = "center";
-    overlay.style.alignItems = "center";
+//     const overlay = document.createElement("div");
+//     overlay.style.position = "fixed";
+//     overlay.style.top = "0";
+//     overlay.style.left = "0";
+//     overlay.style.width = "100%";
+//     overlay.style.height = "100%";
+//     overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+//     overlay.style.zIndex = "999";
+//     overlay.style.display = "flex";
+//     overlay.style.justifyContent = "center";
+//     overlay.style.alignItems = "center";
 
-    overlay.appendChild(gifContainer);
-    document.body.appendChild(overlay);
+//     overlay.appendChild(gifContainer);
+//     document.body.appendChild(overlay);
 
-    gifContainer.style.zIndex = "1000"; 
-    gifContainer.style.display = "flex";
-    gifContainer.style.justifyContent = "center";
-    gifContainer.style.alignItems = "center";
-    gifContainer.style.position = "absolute"; 
-    gifContainer.style.top = "50%";
-    gifContainer.style.left = "50%";
-    gifContainer.style.transform = "translate(-50%, -50%)";
+//     gifContainer.style.zIndex = "1000"; 
+//     gifContainer.style.display = "flex";
+//     gifContainer.style.justifyContent = "center";
+//     gifContainer.style.alignItems = "center";
+//     gifContainer.style.position = "absolute"; 
+//     gifContainer.style.top = "50%";
+//     gifContainer.style.left = "50%";
+//     gifContainer.style.transform = "translate(-50%, -50%)";
 
-    setTimeout(() => {document.body.removeChild(overlay); }, duree);
-    await sleep(duree + 500);
-    window[foncname]();
-}
+//     setTimeout(() => {document.body.removeChild(overlay); }, duree);
+//     await sleep(duree + 500);
+//     window[foncname]();
+// }
