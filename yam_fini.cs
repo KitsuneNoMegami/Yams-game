@@ -246,6 +246,11 @@ class YAMS {
     for (int i=1;i<4;i++) {
       if (i>1) { 
         Change = ChoixRelance();
+        bool valider = true;
+        for (int b=0; b<5; b++) {
+          if (Change[b] == true) {valider=false;}
+        }
+      if (valider == true) {break;}     
       }
       Console.WriteLine(Rouge("Lancer n°"+i+" :"));
       T = RelanceDes(T,Change);
