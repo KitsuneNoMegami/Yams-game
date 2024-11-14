@@ -2,6 +2,42 @@ using System;
 using System.Threading;
 using Internal;
 
+public struct GameData
+{
+    public Parameters Parameters;
+    public Player[] Players;
+    public Round[] Rounds;
+    public FinalResult[] FinalResults;
+}
+public struct Parameters
+{
+    public string Code;
+    public string Date;  // Stocké comme chaîne pour simplifier
+}
+public struct Player
+{
+    public int Id;
+    public string Pseudo;
+}
+public struct Round
+{
+    public int Id;
+    public Result[] Results;
+}
+public struct Result
+{
+    public int IdPlayer;
+    public int[] Dice;
+    public string Challenge;
+    public int Score;
+}
+public struct FinalResult
+{
+    public int IdPlayer;
+    public int Bonus;
+    public int Score;
+}
+
 
 struct Joueur {
   public int num;
@@ -10,7 +46,7 @@ struct Joueur {
   public int score_min;
   public int score_total;
   public bool[] Challenges;
-};
+}
 
 
 class YAMS {
@@ -146,8 +182,10 @@ class YAMS {
     Console.WriteLine("[12] Yam's (5 dés identique - 50 pts)"+DejaFait(11,J));
     Console.WriteLine("[13] Chance (La somme des dés obtenus)"+DejaFait(12,J));
   }
-  public static Joueur ChoixChallenge(Joueur J, int[] T) {
+  public static Joueur ChoixChallenge(Joueur J, int[] T, GameData DATA, int R) {
     int[] Scores = new int[13] {0,0,0,0,0,0,Brelan(T),Carre(T),Full(T),PetiteSuite(T),GrandeSuite(T),Yams(T),Chance(T)};
+    string[] challenges = new string[] {"nombre1","nombre2","nombre3","nombre4","nombre5","nombre6","brelan","carre","full","petite","grande","yams","chance"};
+
     for (int i=1; i<=6; i++) {
       Scores[i-1] = NbDansTab(T,i)*i;
       Console.WriteLine("["+i+"]"+" Nombre de "+i+" : "+Scores[i-1]+DejaFait(i-1,J));
@@ -173,6 +211,12 @@ class YAMS {
       }
     }
 
+    DATA.Rounds[R].Results[J.num-1].Challenge = challenges[ch-1];
+    for (int d=0; d<5; d++) {
+      DATA.Rounds[R].Results[J.num-1].Dice[d] = T[d];
+    }
+    DATA.Rounds[R].Results[J.num-1].Score = Scores[ch-1];
+    
     J.Challenges[ch-1] = true;
     if (ch<7) {
       J.score_min=J.score_min+ Scores[ch-1];
@@ -197,7 +241,7 @@ class YAMS {
 
   public static bool[] ChoixRelance() {
     bool[] Change = new bool[5] {false,false,false,false,false};
-    Console.WriteLine("Entrez les numéros de dés que vous voulez relancer (1-5), <A> pour annuler les choix, ou autre pour valider");
+    Console.WriteLine("Entrez les numéros de dés que vous voulez relancer (1-5) ou tapez <A> pour annuler vos choix. Pour valider votre sélection, appuyez sur n'importe quelle touche. ");
     int c;
     bool fin = false;
     string input;
@@ -237,7 +281,7 @@ class YAMS {
   }
 
 
-  public static Joueur Tour(Joueur J) {
+  public static Joueur Tour(Joueur J, GameData DATA, int R) {
     Console.WriteLine(Vert(J.nom+", c'est votre tour !"));
     bool[] Change = new bool[5] {true,true,true,true,true};
     int[] T = new int[5];
@@ -257,23 +301,26 @@ class YAMS {
       Affiche(T,5);
     }
 
-    J = ChoixChallenge(J,T);
+    J = ChoixChallenge(J,T,DATA,R);
     Console.WriteLine("Score total de "+J.nom+" : "+J.score);
     Console.WriteLine("\n");
     Thread.Sleep(2000);
     return J;
   }
   
-  public static Joueur[] ResultatFin(Joueur[] TabJ) {
+  public static Joueur[] ResultatFin(Joueur[] TabJ, GameData DATA) {
       Console.WriteLine(Rouge(" --- PARTIE TERMINEE --- "));
       for (int j = 0; j < 2; j++) {
-          TabJ[j].score_total = TabJ[j].score;
-          if (TabJ[j].score_min >= 63) {
-              TabJ[j].score_total += 35;
-              Console.WriteLine("Joueur " + TabJ[j].num + " " + TabJ[j].nom + " : " + TabJ[j].score + Vert(" + 35") + " = " + TabJ[j].score_total);
-          } else {
-              Console.WriteLine("Joueur " + TabJ[j].num + " " + TabJ[j].nom + " : " + TabJ[j].score_total);
-          }
+        TabJ[j].score_total = TabJ[j].score;
+        if (TabJ[j].score_min >= 63) {
+            TabJ[j].score_total += 35;
+            Console.WriteLine("Joueur " + TabJ[j].num + " " + TabJ[j].nom + " : " + TabJ[j].score + Vert(" + 35") + " = " + TabJ[j].score_total);
+            DATA.FinalResults[j].Bonus = 35;
+        } else {
+            Console.WriteLine("Joueur " + TabJ[j].num + " " + TabJ[j].nom + " : " + TabJ[j].score_total);
+        }
+
+        DATA.FinalResults[j].Score = TabJ[j].score_total;
       }
       Console.WriteLine();
 
@@ -292,21 +339,62 @@ class YAMS {
 
 
 
+  public static GameData InitGameData(Joueur[] TabJ) {
+    GameData DATA = new GameData();
+    DATA.Parameters = new Parameters();
+    DATA.Parameters.Code = "99999";
+    DATA.Parameters.Date = DateTime.Now.ToString("yyyy-MM-dd");
+    DATA.Players = new Player[2];
+    for (int p=0; p<2; p++) {
+      DATA.Players[p] = new Player();
+      DATA.Players[p].Id = p;
+      DATA.Players[p].Pseudo = TabJ[p].nom;
+    }
+    DATA.Rounds = new Round[13];
+    for (int r=0; r<13; r++) {
+      DATA.Rounds[r] = new Round();
+      DATA.Rounds[r].Id = r+1;
+      DATA.Rounds[r].Results = new Result[2];
+      for (int p=0; p<2; p++) {
+        DATA.Rounds[r].Results[p] = new Result();
+        DATA.Rounds[r].Results[p].IdPlayer = p;
+        DATA.Rounds[r].Results[p].Dice = new int[5];
+        DATA.Rounds[r].Results[p].Challenge = "";
+        DATA.Rounds[r].Results[p].Score = 0;
+      }
+    }
+    DATA.FinalResults = new FinalResult[2];
+    for (int p=0; p<2; p++) {
+      DATA.FinalResults[p].IdPlayer=p;
+      DATA.FinalResults[p].Bonus = 0;
+      DATA.FinalResults[p].Score = 0;
+    }
+    
+    return DATA;
+  }
+
+
+
+
+
+
   public static void Main() {
     Joueur[] TabJ = InitJoueurs();
     Console.Clear();
+
+    GameData DATA = InitGameData(TabJ);
+
+
     
     for (int R=1; R<=13; R++) {
       Console.WriteLine(Rouge("\t ROUND "+R));
       for (int j=0; j<2; j++) {
-        TabJ[j] = Tour(TabJ[j]);
+        TabJ[j] = Tour(TabJ[j], DATA, R);
         Console.Clear();
       }
       Console.Clear();
     }
 
-    TabJ = ResultatFin(TabJ);
-    Console.WriteLine("Programme terminé. Appuyez sur Entrée pour quitter.");
-    Console.ReadLine();
+    TabJ = ResultatFin(TabJ, DATA);
   }
 }
