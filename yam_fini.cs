@@ -197,7 +197,7 @@ class YAMS {
 
   public static bool[] ChoixRelance() {
     bool[] Change = new bool[5] {false,false,false,false,false};
-    Console.WriteLine("Entrez les numéros de dés que vous voulez relancer (1-5) ou tapez <A> pour annuler vos choix. Pour valider votre sélection, appuyez sur n'importe quelle touche. ");
+    Console.WriteLine("Entrez les numéros de dés que vous voulez relancer (1-5), <A> pour annuler les choix, ou autre pour valider");
     int c;
     bool fin = false;
     string input;
@@ -306,5 +306,7 @@ class YAMS {
     }
 
     TabJ = ResultatFin(TabJ);
+    Console.WriteLine("Programme terminé. Appuyez sur Entrée pour quitter.");
+    Console.ReadLine();
   }
 }
