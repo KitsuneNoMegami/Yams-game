@@ -15,7 +15,10 @@ body {
     padding: 1em;
     margin: auto;
     box-shadow: 0 0 6em rgba(0, 0, 0);
-
+    -webkit-user-select: none; /* Chrome, Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* Standard */
 }
 
 
