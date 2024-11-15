@@ -318,7 +318,7 @@ button:hover {
     }
 }
 
-@media (max-width: 2000px) {
+@media (max-width: 5000px) {
     #navbar {
         text-align: center;
         display: flex;
