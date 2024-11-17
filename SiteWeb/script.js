@@ -62,8 +62,8 @@ function AfficherVueParTour() {
 function updateDiceImages(joueur1Result, joueur2Result) {
     const turnDisplay = document.getElementById("tourActuel");
     
-    const diceImages1 = joueur1Result.dice.map(dice => `<img src="./Images/Dés_clair/${dice}.png" height="30rem" width="30rem">`).join('');
-    const diceImages2 = joueur2Result.dice.map(dice => `<img src="./Images/Dés_clair/${dice}.png" height="30rem" width="30rem">`).join('');
+    const diceImages1 = joueur1Result.dice.map(dice => `<img src="./Images/Dés_clair/${dice}.png" height="30rem" width="30rem" alt="${dice}">`).join('');
+    const diceImages2 = joueur2Result.dice.map(dice => `<img src="./Images/Dés_clair/${dice}.png" height="30rem" width="30rem" alt="${dice}">`).join('');
 
     turnDisplay.innerHTML = `
         <h3>Tour ${currentTurnIndex + 1}</h3>

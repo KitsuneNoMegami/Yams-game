@@ -7,7 +7,12 @@
 
 html{ 
     background-image: url("./Images/texture.png") ;
+    background-size: cover;
+    image-rendering: smooth;
+    background-attachment: fixed;
+    background-position: center;
 }
+
 body {
     font-family: "Playfair Display Italic", sans-serif;
     background-color: rgba(14, 189, 101, 0.6);
