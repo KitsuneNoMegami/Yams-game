@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 using Internal;
 
@@ -36,6 +37,21 @@ public struct FinalResult
     public int IdPlayer;
     public int Bonus;
     public int Score;
+
+    public static string ToString(GameData DATA) {
+      string s="";
+      s=s + "\"final_result\": [\n";
+      for (int p=0; p<2; p++) {
+        s=s + "\t{\n";
+        s=s + "\t\t\"id_player\": "+DATA.FinalResults[p].IdPlayer+",\n";
+        s=s + "\t\t\"bonus\": "+DATA.FinalResults[p].Bonus+",\n";
+        s=s + "\t\t\"score\": "+DATA.FinalResults[p].Score+",\n";
+        if (p==0) {s=s + "\t},\n";}
+        else {s=s + "\t}\n";}
+      }
+      s=s + "]\n";
+      return s;
+    }
 }
 
 
@@ -184,7 +200,7 @@ class YAMS {
   }
   public static Joueur ChoixChallenge(Joueur J, int[] T, GameData DATA, int R) {
     int[] Scores = new int[13] {0,0,0,0,0,0,Brelan(T),Carre(T),Full(T),PetiteSuite(T),GrandeSuite(T),Yams(T),Chance(T)};
-    string[] challenges = new string[] {"nombre1","nombre2","nombre3","nombre4","nombre5","nombre6","brelan","carre","full","petite","grande","yams","chance"};
+    string[] challenges = new string[13] {"nombre1","nombre2","nombre3","nombre4","nombre5","nombre6","brelan","carre","full","petite","grande","yams","chance"};
 
     for (int i=1; i<=6; i++) {
       Scores[i-1] = NbDansTab(T,i)*i;
@@ -211,11 +227,11 @@ class YAMS {
       }
     }
 
-    DATA.Rounds[R].Results[J.num-1].Challenge = challenges[ch-1];
+    DATA.Rounds[R-1].Results[J.num-1].Challenge = challenges[ch-1];
     for (int d=0; d<5; d++) {
-      DATA.Rounds[R].Results[J.num-1].Dice[d] = T[d];
+      DATA.Rounds[R-1].Results[J.num-1].Dice[d] = T[d];
     }
-    DATA.Rounds[R].Results[J.num-1].Score = Scores[ch-1];
+    DATA.Rounds[R-1].Results[J.num-1].Score = Scores[ch-1];
     
     J.Challenges[ch-1] = true;
     if (ch<7) {
@@ -374,7 +390,15 @@ class YAMS {
   }
 
 
+  public static void CreationJson(GameData DATA) {
+    StreamWriter F = new StreamWriter("data/gamedata.json");
 
+    F.WriteLine("{");
+    F.WriteLine("\tparameters : {");
+
+    F.Close();
+    
+  }
 
 
 
@@ -396,5 +420,6 @@ class YAMS {
     }
 
     TabJ = ResultatFin(TabJ, DATA);
+    Console.WriteLine(DATA.Rounds[12].Results[1].Dice[0]);
   }
 }
