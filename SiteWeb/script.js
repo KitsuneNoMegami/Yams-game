@@ -5,41 +5,57 @@ let bonuses = [0, 0];
 const sequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
 let currentInput = [];
 
-document.addEventListener('wheel', function(event) {
+document.addEventListener('wheel', handleWheelEvent, { passive: false });
+document.addEventListener("keydown", VerifEntrer);
+
+function handleWheelEvent(event) {
     if ((window.scrollY === 0 && event.deltaY < 0) || 
         (window.innerHeight + window.scrollY >= document.body.offsetHeight && event.deltaY > 0)) {
         event.preventDefault();
     }
-}, { passive: false });
-
-document.addEventListener("keydown", VerifEntrer);
-
+}
 
 function VerifEntrer(event) {
-    console.debug(event.key)
+    console.debug(event.key);
     if (event.key === "Enter") {
         event.preventDefault();
         ChargerDonneeJeu();
-    }
-    else if (event.key === "ArrowRight") {
+    } else if (event.key === "ArrowRight") {
         event.preventDefault();
         AfficherTourSuivant();
-    }
-    else if (event.key === "ArrowLeft") {
+    } else if (event.key === "ArrowLeft") {
         event.preventDefault();
         AfficherTourPrecedent();
     }
 }
 
-
 async function ChargerDonneeJeu() {
     const fileName = document.getElementById("nomFichier").value || "exemple.json";
     ResetJeu();
-
+    
     try {
-        const response = await fetch(`bdd_yams/${fileName}`);
-        gameData = await response.json();
+        gameData = {
+            parameters: {},
+            players: [],
+            rounds: [],
+            final_result: []
+        };
 
+        const response1 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/parameters`);
+        gameData.parameters = await response1.json();
+
+        const response2 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/players`);
+        gameData.players = await response2.json();
+
+        for (let i = 1; i < 14; i++) {
+            const response3 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/rounds/${i}`);
+            gameData.rounds.push(await response3.json());
+        }
+
+        const response4 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/final-result`);
+        gameData.final_result = await response4.json();
+
+        console.log(gameData);
         document.getElementById('btnvueglobale').classList.remove("invisible");
         document.getElementById('btnvuetour').classList.remove("invisible");
     } catch (error) {
@@ -51,12 +67,12 @@ async function ChargerDonneeJeu() {
 function AfficherVueGlobale() {
     document.getElementById("vueGlobale").style.display = "flex";
     document.getElementById("vueTour").style.display = "none";
-    const globalSummary = document.getElementById("resumeGlobal");
 
+    const globalSummary = document.getElementById("resumeGlobal");
     const gameParameters = gameData.parameters;
     const parametersDisplay = `
         <p><strong>Code de Jeu:</strong> ${gameParameters.code}</p>
-        <p><strong>Date:</strong> ${gameParameters.date}</p> 
+        <p><strong>Date:</strong> ${gameParameters.date}</p>
     `;
 
     const joueur1 = gameData.players[0];
@@ -160,9 +176,4 @@ function ResetJeu() {
     document.getElementById("tourActuel").innerHTML = "";
     document.getElementById("scoreJoueur1").innerHTML = "";
     document.getElementById("scoreJoueur2").innerHTML = "";
-    document.getElementById("vueGlobale").style.display = "none";
-    document.getElementById("vueTour").style.display = "none";
-    document.getElementById('btnvueglobale').classList.add("invisible");
-    document.getElementById('btnvuetour').classList.add("invisible");
-    document.getElementById("nomFichier").value = "";
 }
