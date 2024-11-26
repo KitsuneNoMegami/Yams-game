@@ -391,105 +391,35 @@ class YAMS {
 
 
   public static void CreationJson(GameData DATA) {
-      StreamWriter F = new StreamWriter("data/gamedata.json");
+    StreamWriter F = new StreamWriter("data/gamedata.json");
 
-      F.WriteLine("{");
+    F.WriteLine("{");
+    F.WriteLine("\tparameters : {");
 
-      // Write Parameters section
-      F.WriteLine("\t\"parameters\": {");
-      F.WriteLine("\t\t\"code\": \"" + DATA.Parameters.Code + "\",");
-      F.WriteLine("\t\t\"date\": \"" + DATA.Parameters.Date + "\"");
-      F.WriteLine("\t},");
-
-      // Write Players section
-      F.WriteLine("\t\"players\": [");
-      for (int i = 0; i < DATA.Players.Length; i++) {
-          F.WriteLine("\t\t{");
-          F.WriteLine("\t\t\t\"id\": " + DATA.Players[i].Id + ",");
-          F.WriteLine("\t\t\t\"pseudo\": \"" + DATA.Players[i].Pseudo + "\"");
-          if (i == DATA.Players.Length - 1) {
-              F.WriteLine("\t\t}");
-          } else {
-              F.WriteLine("\t\t},");
-          }
-      }
-      F.WriteLine("\t],");
-
-      // Write Rounds section
-      F.WriteLine("\t\"rounds\": [");
-      for (int r = 0; r < DATA.Rounds.Length; r++) {
-          F.WriteLine("\t\t{");
-          F.WriteLine("\t\t\t\"id\": " + DATA.Rounds[r].Id + ",");
-          F.WriteLine("\t\t\t\"results\": [");
-          for (int p = 0; p < DATA.Rounds[r].Results.Length; p++) {
-              F.WriteLine("\t\t\t\t{");
-              F.WriteLine("\t\t\t\t\t\"id_player\": " + DATA.Rounds[r].Results[p].IdPlayer + ",");
-              F.WriteLine("\t\t\t\t\t\"dice\": [" + string.Join(",", DATA.Rounds[r].Results[p].Dice) + "],");
-              F.WriteLine("\t\t\t\t\t\"challenge\": \"" + DATA.Rounds[r].Results[p].Challenge + "\",");
-              F.WriteLine("\t\t\t\t\t\"score\": " + DATA.Rounds[r].Results[p].Score);
-              if (p == DATA.Rounds[r].Results.Length - 1) {
-                  F.WriteLine("\t\t\t\t}");
-              } else {
-                  F.WriteLine("\t\t\t\t},");
-              }
-          }
-          F.WriteLine("\t\t\t]");
-          if (r == DATA.Rounds.Length - 1) {
-              F.WriteLine("\t\t}");
-          } else {
-              F.WriteLine("\t\t},");
-          }
-      }
-      F.WriteLine("\t],");
-
-      // Write FinalResults section
-      F.WriteLine("\t\"final_result\": [");
-      for (int p = 0; p < DATA.FinalResults.Length; p++) {
-          F.WriteLine("\t\t{");
-          F.WriteLine("\t\t\t\"id_player\": " + DATA.FinalResults[p].IdPlayer + ",");
-          F.WriteLine("\t\t\t\"bonus\": " + DATA.FinalResults[p].Bonus + ",");
-          F.WriteLine("\t\t\t\"score\": " + DATA.FinalResults[p].Score);
-          if (p == DATA.FinalResults.Length - 1) {
-              F.WriteLine("\t\t}");
-          } else {
-              F.WriteLine("\t\t},");
-          }
-      }
-      F.WriteLine("\t]");
-
-      F.WriteLine("}");
-
-      F.Close();
+    F.Close();
+    
   }
 
 
 
-public static void Main() {
-    Joueur[] TabJ = InitJoueurs();  // Initialize players
+  public static void Main() {
+    Joueur[] TabJ = InitJoueurs();
     Console.Clear();
 
-    GameData DATA = InitGameData(TabJ);  // Initialize game data
-  
-    // Loop through the 13 rounds of the game
-    for (int R = 1; R <= 13; R++) {
-        Console.WriteLine(Rouge("\t ROUND " + R));  // Print the current round
-        for (int j = 0; j < 2; j++) {
-            TabJ[j] = Tour(TabJ[j], DATA, R);  // Execute player's turn for the round
-            Console.Clear();
-        }
+    GameData DATA = InitGameData(TabJ);
+
+
+    
+    for (int R=1; R<=13; R++) {
+      Console.WriteLine(Rouge("\t ROUND "+R));
+      for (int j=0; j<2; j++) {
+        TabJ[j] = Tour(TabJ[j], DATA, R);
         Console.Clear();
+      }
+      Console.Clear();
     }
 
-    // Final results after all rounds
-    TabJ = ResultatFin(TabJ, DATA);  
-
-    // Print the result of the last player's dice in the final round
+    TabJ = ResultatFin(TabJ, DATA);
     Console.WriteLine(DATA.Rounds[12].Results[1].Dice[0]);
-
-    // Now, create the JSON file from the game data
-    CreationJson(DATA);  // Call the function to create the JSON file
-
-    Console.WriteLine("Game data saved to 'gamedata.json'.");  // Optional confirmation message
-}
-
+  }
 }
