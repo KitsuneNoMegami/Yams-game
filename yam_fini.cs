@@ -197,6 +197,8 @@ class YAMS {
     Console.WriteLine("[11] Grande Suite (Une suite de 5 nombres - 40 pts)"+DejaFait(10,J));
     Console.WriteLine("[12] Yam's (5 dés identique - 50 pts)"+DejaFait(11,J));
     Console.WriteLine("[13] Chance (La somme des dés obtenus)"+DejaFait(12,J));
+
+    Console.WriteLine("\n    Avancement du bonus : "+J.score_min+" sur 63");
   }
   public static Joueur ChoixChallenge(Joueur J, int[] T, GameData DATA, int R) {
     int[] Scores = new int[13] {0,0,0,0,0,0,Brelan(T),Carre(T),Full(T),PetiteSuite(T),GrandeSuite(T),Yams(T),Chance(T)};
