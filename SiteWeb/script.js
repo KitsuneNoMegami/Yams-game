@@ -45,15 +45,15 @@ async function ChargerDonneeJeu() {
             final_result: []
         };
 
-        const response1 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/parameters`);
-        gameData.parameters = await response1.json();
+        const reponse1 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/parameters`);
+        gameData.parameters = await reponse1.json();
 
-        const response2 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/players`);
-        gameData.players = await response2.json();
+        const reponse2 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/players`);
+        gameData.players = await reponse2.json();
 
         for (let i = 1; i < 14; i++) {
-            const response3 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/rounds/${i}`);
-            gameData.rounds.push(await response3.json());
+            const reponse3 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/rounds/${i}`);
+            gameData.rounds.push(await reponse3.json());
         }
 
         const response4 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/final-result`);
@@ -98,7 +98,7 @@ function AfficherVueParTour() {
     AfficherTourActuel();
 }
 
-function updateDiceImages(joueur1Result, joueur2Result) {
+function MAJ_Des_Image(joueur1Result, joueur2Result) {
     const turnDisplay = document.getElementById("tourActuel");
 
     const diceImages1 = joueur1Result.dice.map(dice => `<img src="./Images/Dés_clair/${dice}.png" height="30rem" width="30rem" alt="${dice}">`).join('');
@@ -150,7 +150,7 @@ function AfficherTourActuel() {
     const currentTurn = gameData.rounds[currentTurnIndex];
     const joueur1Result = currentTurn.results.find(result => result.id_player === joueur1.id);
     const joueur2Result = currentTurn.results.find(result => result.id_player === joueur2.id);
-    updateDiceImages(joueur1Result, joueur2Result);
+    MAJ_Des_Image(joueur1Result, joueur2Result);
 
     document.getElementById("scoreJoueur1").innerHTML = `${joueur1.pseudo} : ${scores[0]}`;
     document.getElementById("scoreJoueur2").innerHTML = `${joueur2.pseudo} : ${scores[1]}`;
