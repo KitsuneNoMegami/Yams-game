@@ -30,7 +30,7 @@ function VerifEntrer(event) {
 }
 
 async function ChargerDonneeJeu() {
-    const fileName = document.getElementById("nomFichier").value || "exemple.json";
+    const fileName = document.getElementById("nomFichier").value || "tx68ar7tor";
     ResetJeu();
     
     try {
@@ -176,4 +176,9 @@ function ResetJeu() {
     document.getElementById("tourActuel").innerHTML = "";
     document.getElementById("scoreJoueur1").innerHTML = "";
     document.getElementById("scoreJoueur2").innerHTML = "";
+    document.getElementById("vueGlobale").style.display = "none";
+    document.getElementById("vueTour").style.display = "none";
+    document.getElementById('btnvueglobale').classList.add("invisible");
+    document.getElementById('btnvuetour').classList.add("invisible");
+    document.getElementById("nomFichier").value = "";
 }
