@@ -9,11 +9,9 @@ document.addEventListener('wheel', Scroll, { passive: false });
 document.addEventListener("keydown", VerifEntrer);
 
 const button = document.getElementById('charger');
-button.addEventListener('click', () => {
-  button.classList.add('loading');
-  setTimeout(() => {button.classList.remove('loading');}, 750);
-});
-
+button.addEventListener('click', function() {
+    button.classList.add('loading');
+})
 function Scroll(event) {
     if ((window.scrollY === 0 && event.deltaY < 0) || 
         (window.innerHeight + window.scrollY >= document.body.offsetHeight && event.deltaY > 0)) {
@@ -63,6 +61,7 @@ async function ChargerDonneeJeu() {
 
         document.getElementById('btnvueglobale').classList.remove("invisible");
         document.getElementById('btnvuetour').classList.remove("invisible");
+        button.classList.remove('loading');
     } catch (error) {
         console.error("Erreur de chargement des données JSON :", error);
         alert("Erreur de chargement des données JSON. Vérifiez le nom du fichier et réessayez.");
