@@ -8,6 +8,12 @@ let currentInput = [];
 document.addEventListener('wheel', Scroll, { passive: false });
 document.addEventListener("keydown", VerifEntrer);
 
+const button = document.getElementById('charger');
+button.addEventListener('click', () => {
+  button.classList.add('loading');
+  setTimeout(() => {button.classList.remove('loading');}, 750);
+});
+
 function Scroll(event) {
     if ((window.scrollY === 0 && event.deltaY < 0) || 
         (window.innerHeight + window.scrollY >= document.body.offsetHeight && event.deltaY > 0)) {

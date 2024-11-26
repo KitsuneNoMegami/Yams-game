@@ -276,6 +276,10 @@ button:hover {
     text-align: center;
 }
 
+button.loading {
+    cursor: wait;
+  }
+
 @media (max-width: 768px) {
     header {
         margin-bottom: 1.5rem;
