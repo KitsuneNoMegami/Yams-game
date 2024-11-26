@@ -55,7 +55,6 @@ async function ChargerDonneeJeu() {
         const response4 = await fetch(`http://yams.iutrs.unistra.fr:3000/api/games/${fileName}/final-result`);
         gameData.final_result = await response4.json();
 
-        console.log(gameData);
         document.getElementById('btnvueglobale').classList.remove("invisible");
         document.getElementById('btnvuetour').classList.remove("invisible");
     } catch (error) {
