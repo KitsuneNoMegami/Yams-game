@@ -5,10 +5,10 @@ let bonuses = [0, 0];
 const sequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
 let currentInput = [];
 
-document.addEventListener('wheel', handleWheelEvent, { passive: false });
+document.addEventListener('wheel', Scroll, { passive: false });
 document.addEventListener("keydown", VerifEntrer);
 
-function handleWheelEvent(event) {
+function Scroll(event) {
     if ((window.scrollY === 0 && event.deltaY < 0) || 
         (window.innerHeight + window.scrollY >= document.body.offsetHeight && event.deltaY > 0)) {
         event.preventDefault();
