@@ -74,22 +74,63 @@ function AfficherVueGlobale() {
 
     const globalSummary = document.getElementById("resumeGlobal");
     const gameParameters = gameData.parameters;
-    const parametersDisplay = `
+
+    // Définition de l'en-tête
+    let tableauHTML = `
+        <h3>Résumé de la partie</h3>
         <p><strong>Code de Jeu:</strong> ${gameParameters.code}</p>
         <p><strong>Date:</strong> ${gameParameters.date}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tour</th>
+                    <th>Joueur 1 (${gameData.players[0].pseudo})</th>
+                    <th>Score</th>
+                    <th>Joueur 2 (${gameData.players[1].pseudo})</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
     `;
 
-    const joueur1 = gameData.players[0];
-    const joueur2 = gameData.players[1];
-    const score1 = gameData.final_result.find(res => res.id_player === joueur1.id).score;
-    const score2 = gameData.final_result.find(res => res.id_player === joueur2.id).score;
+    // Parcours des tours pour générer les lignes du tableau
+    gameData.rounds.forEach((round, index) => {
+        const joueur1Result = round.results.find(result => result.id_player === gameData.players[0].id);
+        const joueur2Result = round.results.find(result => result.id_player === gameData.players[1].id);
 
-    globalSummary.innerHTML = `
-        ${parametersDisplay}
-        <p>${joueur1.pseudo} - Score Final : ${score1}</p>
-        <p>${joueur2.pseudo} - Score Final : ${score2}</p>
+        tableauHTML += `
+            <tr>
+                <td>Tour ${index + 1}</td>
+                <td>${joueur1Result.challenge} (${joueur1Result.dice.join(", ")})</td>
+                <td>${joueur1Result.score}</td>
+                <td>${joueur2Result.challenge} (${joueur2Result.dice.join(", ")})</td>
+                <td>${joueur2Result.score}</td>
+            </tr>
+        `;
+    });
+
+    // Résultats finaux
+    const joueur1Final = gameData.final_result.find(res => res.id_player === gameData.players[0].id);
+    const joueur2Final = gameData.final_result.find(res => res.id_player === gameData.players[1].id);
+
+    tableauHTML += `
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Résultats finaux</td>
+                    <td>Bonus : ${joueur1Final.bonus}</td>
+                    <td>Score total : ${joueur1Final.score}</td>
+                    <td>Bonus : ${joueur2Final.bonus}</td>
+                    <td>Score total : ${joueur2Final.score}</td>
+                </tr>
+            </tfoot>
+        </table>
     `;
+
+    // Mise à jour de la vue globale
+    globalSummary.innerHTML = tableauHTML;
 }
+
 
 function AfficherVueParTour() {
     currentTurnIndex = 0;
