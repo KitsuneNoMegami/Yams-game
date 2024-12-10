@@ -38,14 +38,14 @@ public struct FinalResult
     public int Bonus;
     public int Score;
 
-    public static string ToString(GameData DATA) {
+    public static string ToString(FinalResult[] FinalResults) {
       string s="";
       s=s + "\"final_result\": [\n";
       for (int p=0; p<2; p++) {
         s=s + "\t{\n";
-        s=s + "\t\t\"id_player\": "+DATA.FinalResults[p].IdPlayer+",\n";
-        s=s + "\t\t\"bonus\": "+DATA.FinalResults[p].Bonus+",\n";
-        s=s + "\t\t\"score\": "+DATA.FinalResults[p].Score+",\n";
+        s=s + "\t\t\"id_player\": "+FinalResults[p].IdPlayer+",\n";
+        s=s + "\t\t\"bonus\": "+FinalResults[p].Bonus+",\n";
+        s=s + "\t\t\"score\": "+FinalResults[p].Score+",\n";
         if (p==0) {s=s + "\t},\n";}
         else {s=s + "\t}\n";}
       }
@@ -63,6 +63,8 @@ struct Joueur {
   public int score_total;
   public bool[] Challenges;
 }
+
+
 
 
 class YAMS {
