@@ -53,8 +53,6 @@ public struct FinalResult
       return s;
     }
 }
-
-
 struct Joueur {
   public int num;
   public string nom;
@@ -68,6 +66,12 @@ struct Joueur {
 
 
 class YAMS {
+
+  public static void Ecrire(GameData DATA){
+    StreamWriter f= new StreamWriter("partie.json");
+    f.WriteLine(RenvoieJsonDATA(DATA));
+    f.Close();
+  }
   public static string Vert(string S) {
     return "\u001b[32m" + S + "\u001b[0m";    //32=vert en code ANSI
   }
