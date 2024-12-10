@@ -263,7 +263,7 @@ class YAMS {
     int c;
     bool fin = false;
     string input;
-    while (fin==false) {
+    while (!fin) {
       input = Console.ReadLine();
       if (input=="A") {
         for (int i=0;i<5;i++) {Change[i]=false;}
@@ -320,9 +320,9 @@ class YAMS {
     }
 
     J = ChoixChallenge(J,T,DATA,R);
+    Console.Clear();
     Console.WriteLine("Score total de "+J.nom+" : "+J.score);
-    Console.WriteLine("\n");
-    Thread.Sleep(2000);
+    Console.WriteLine("\n\n");
     return J;
   }
   
@@ -416,10 +416,9 @@ class YAMS {
       Console.WriteLine(Rouge("\t ROUND "+R));
       for (int j=0; j<2; j++) {
         TabJ[j] = Tour(TabJ[j], DATA, R);
-        Console.Clear();
       }
-      Console.Clear();
     }
+    Console.Clear();
 
     TabJ = ResultatFin(TabJ, DATA);
     Console.WriteLine(DATA.Rounds[12].Results[1].Dice[0]);
