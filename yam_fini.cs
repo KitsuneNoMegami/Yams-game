@@ -3,40 +3,41 @@ using System.IO;
 using System.Threading;
 using Internal;
 
-public struct GameData
-{
+public struct GameData    ////// Structure pour les données de la partie //////
+{                         /// Contient les structures Parameters
+                          /// Player, Round et FinalResults
     public Parameters Parameters;
     public Player[] Players;
     public Round[] Rounds;
     public FinalResult[] FinalResults;
 }
-public struct Parameters
+public struct Parameters    ////// Structure pour les paramètres //////
 {
-    public string Code;
-    public string Date;  // Stocké comme chaîne pour simplifier
+    public string Code;         // Le code de la partie 
+    public string Date;         // Stocké comme chaîne pour simplifier
 }
-public struct Player
+public struct Player    ////// Structure pour les joueurs //////
 {
-    public int Id;
-    public string Pseudo;
+    public int Id;              // L'identifiant du joueur
+    public string Pseudo;       //Le pseudo du joueur
 }
-public struct Round
+public struct Round   ////// Structure pour les tours //////
 {
-    public int Id;
-    public Result[] Results;
+    public int Id;              // L'identifiant de tour allant de 1 à 13
+    public Result[] Results;    // Tableau de la structure Result
 }
-public struct Result
+public struct Result    ////// Structure pour les Résultats d'un tour précis //////
 {
-    public int IdPlayer;
-    public int[] Dice;
-    public string Challenge;
-    public int Score;
+    public int IdPlayer;        // L'identifiant du joueur 
+    public int[] Dice;          // Tableau contenant les résultats de chaque dés à la fin du tour
+    public string Challenge;    // Le nom du challenge choisi
+    public int Score;           // Le score obtenu par le joueur pour le challenge choisi
 }
-public struct FinalResult
+public struct FinalResult   ////// Structure pour les Résultats globaux //////
 {
-    public int IdPlayer;
-    public int Bonus;
-    public int Score;
+    public int IdPlayer;       // L'identifiant du joueur
+    public int Bonus;         // Le score du bonus obtenu
+    public int Score;         // Le score obtenu a la fin de la partie avec le bonus
 
     public static string ToString(FinalResult[] FinalResults) {
       string s="";
