@@ -550,7 +550,7 @@ class YAMS {
     Ecrire(DATA);
 
     Console.WriteLine("Choisissez la méthode d'envoi des informations de la partie pour accéder aux statistiques détaillées de la partie : ");
-    Console.WriteLine("[1] Métode automatique");
+    Console.WriteLine("[1] Méthode automatique (Envoi automatique du fichier vers le serveur)");
     Console.WriteLine("[2] Méthode manuelle (json à déposer sur http://yams.iutrs.unistra.fr:3000)");
     int rep = 0;
     bool rep_valide = false;
@@ -564,7 +564,7 @@ class YAMS {
     if (rep==1) {
       EnvoieJsonDansAPI();
     } else {
-      Console.WriteLine("Fichier généré dans le même dossier du jeu");
+      Console.WriteLine("Fichier stocker ici : " + Directory.GetCurrentDirectory());
     }
   }
 }
