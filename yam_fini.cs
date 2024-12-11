@@ -3,6 +3,9 @@ using System.IO;
 using System.Threading;
 using Internal;
 
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+
 public struct GameData    ////// Structure pour les données de la partie //////
 {                         /// Contient les structures Parameters
                           /// Player, Round et FinalResults
@@ -129,18 +132,70 @@ class YAMS {
 
 
 
-  public static void Ecrire(GameData DATA){
+  public static void Ecrire(GameData DATA){       //Ecrit la structure DATA en json dans partie.json
     StreamWriter f= new StreamWriter("partie.json");
     f.WriteLine(RenvoieJsonDATA(DATA));
     f.Close();
   }
 
 
+  public static void EnvoieJsonDansAPI() {
+    // On vérifie si l'ordinateur utilise Windows ou un autre système (comme Linux ou Mac).
+    bool isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+
+    // On prépare une commande pour envoyer un fichier sur un site web et récupérer un identifiant.
+    var processStartInfo = new ProcessStartInfo
+    {
+        // Si on est sur Windows, on utilise "cmd.exe", sinon on utilise "/bin/bash".
+        FileName = isWindows ? "cmd.exe" : "/bin/bash",
+
+        // La commande à exécuter dépend du système d'exploitation.
+        Arguments = isWindows ? 
+            // Commande pour Windows
+            "/C curl -s -X POST -F \"file=@partie.json\" http://yams.iutrs.unistra.fr:3000 2>nul && powershell -Command \"(Get-Content response.txt | ForEach-Object { $_.Substring(30, $_.Length - 35) } | Select-Object -Last 5 | Select-Object -First 1)\""
+            : 
+            // Commande pour Linux/Mac
+            "-c \"curl -s -X POST -F 'file=@partie.json' http://yams.iutrs.unistra.fr:3000 2>/dev/null | tail -n 5 | head -n 1\"",
+
+        // On n'affiche pas de fenêtre ou de terminal pendant que le programme fonctionne.
+        UseShellExecute = false,
+        RedirectStandardOutput = true,  // On capture la réponse du programme pour la lire.
+        WindowStyle = ProcessWindowStyle.Hidden
+    };
+
+    // On lance la commande et on attend qu'elle termine.
+    var process = Process.Start(processStartInfo);
+
+    // On récupère tout ce que le programme a écrit comme résultat.
+    string output = process.StandardOutput.ReadToEnd();
+    process.WaitForExit();
+
+    // On utilise une "règle" (regex) pour trouver un texte précis : "Identifiant de la partie : ..." suivi de lettres et chiffres.
+    var match = Regex.Match(output, @"Identifiant de la partie : ([a-zA-Z0-9]+)");
+
+    // Si on a trouvé quelque chose qui correspond à la règle :
+    if (match.Success)
+    {
+        // On garde juste l'identifiant, c'est-à-dire les lettres et chiffres après "Identifiant de la partie : ".
+        string cleanResult = match.Groups[1].Value;
+
+        // On montre l'identifiant à l'écran.
+        Console.WriteLine($"Identifiant de la partie : {cleanResult}");
+    }
+    else
+    {
+        // Si on n'a rien trouvé, on le dit à l'utilisateur.
+        Console.WriteLine("Impossible de trouver l'identifiant.");
+    }
+  }
+
+
+
   public static string Vert(string S) {
     return "\u001b[32m" + S + "\u001b[0m";    //32=vert en code ANSI
   }
   public static string Rouge(string S) {
-    return "\u001b[31m" + S + "\u001b[0m";
+    return "\u001b[31m" + S + "\u001b[0m";    //31=rouge en ANSI
   }
 
   public static void Affiche(int[] T, int N) {      //AFFICHE tab de N entiers
@@ -150,7 +205,7 @@ class YAMS {
     Console.WriteLine();
   }
 
-  public static bool Present(int[] T, int n) {
+  public static bool Present(int[] T, int n) {    //TESTE si n est dans tab
     bool pres=false;
     for (int i=0; i<5 && pres==false; i++) {
       if (T[i]==n) {pres=true;}
@@ -493,5 +548,23 @@ class YAMS {
 
     TabJ = ResultatFin(TabJ, DATA);
     Ecrire(DATA);
+
+    Console.WriteLine("Choisissez la méthode d'envoi des informations de la partie pour accéder aux statistiques détaillées de la partie : ");
+    Console.WriteLine("[1] Métode automatique");
+    Console.WriteLine("[2] Méthode manuelle (json à déposer sur http://yams.iutrs.unistra.fr:3000)");
+    int rep = 0;
+    bool rep_valide = false;
+    while(!rep_valide) {
+      if (int.TryParse(Console.ReadLine(),out rep) && (rep==1 || rep==2)) {
+        rep_valide=true;
+      } else {
+        Console.WriteLine(Rouge("Choix invalide"));
+      }
+    }
+    if (rep==1) {
+      EnvoieJsonDansAPI();
+    } else {
+      Console.WriteLine("Fichier généré dans le même dossier du jeu");
+    }
   }
 }
