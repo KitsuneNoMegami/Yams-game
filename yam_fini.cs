@@ -390,7 +390,7 @@ class YAMS {
     string input;
     while (!fin) {
       input = Console.ReadLine();
-      if (input=="A") {
+      if (input=="A" || input=="a") {
         for (int i=0;i<5;i++) {Change[i]=false;}
         Console.WriteLine(Rouge("Tous les dés ont été désélectionnés"));
       }
