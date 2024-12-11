@@ -430,7 +430,8 @@ class YAMS {
   public static GameData InitGameData(Joueur[] TabJ) {
     GameData DATA = new GameData();
     DATA.Parameters = new Parameters();
-    DATA.Parameters.Code = "99999";
+    Random rand = new Random();
+    DATA.Parameters.Code = (rand.Next(1,10000)).ToString();
     DATA.Parameters.Date = DateTime.Now.ToString("yyyy-MM-dd");
     DATA.Players = new Player[2];
     for (int p=0; p<2; p++) {
