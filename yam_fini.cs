@@ -79,28 +79,28 @@ class YAMS {
     string s="{\n";
     s+="\t\"parameters\": {\n";
     s+="\t\t\"code\": \""+DATA.Parameters.Code+"\",\n";
-    s+="\t\t\"date\": \""+DATA.Parameters.Date+"\",\n";
+    s+="\t\t\"date\": \""+DATA.Parameters.Date+"\"\n";
     s+="\t},\n";
     s+="\t\"players\": [\n";
     for (int i=0; i<2; i++) {
       s+="\t{\n";
-      s+="\t\t\"id\": "+i+1+",\n\t}";
+      s+="\t\t\"id\": "+(i+1)+",\n";
       s+="\t\t\"pseudo\": \""+DATA.Players[i].Pseudo+"\"\n\t}";
-      if (i==1){s+=",";}
+      if (i==0){s+=",";}
       s+="\n";
     }
-    s+="\t],";
+    s+="\t]\n,";
     s+="\t\"rounds\": [\n";
     for (int i=0; i<13; i++) {
       s+="\t\t{\n";
-      s+="\t\t\"id\": "+i+1+",\n";
-      s+="\t\t\"results\": [";
+      s+="\t\t\"id\": "+(i+1)+",\n";
+      s+="\t\t\"results\": [\n";
       for (int j=0; j<2; j++) {
         s+=Tab(3)+"{\n";
-        s+=Tab(3)+"\"id_player\": "+i+1+",\n";
+        s+=Tab(3)+"\"id_player\": "+(j+1)+",\n";
         int[] T = DATA.Rounds[i].Results[j].Dice;
         s+=Tab(3)+"\"dice\": ["+T[0]+","+T[1]+","+T[2]+","+T[3]+","+T[4]+"],\n";
-        s+=Tab(3)+"\"challenge\": "+DATA.Rounds[i].Results[j].Challenge+",\n";
+        s+=Tab(3)+"\"challenge\": \""+DATA.Rounds[i].Results[j].Challenge+"\",\n";
         s+=Tab(3)+"\"score\": "+DATA.Rounds[i].Results[j].Score+"\n"+Tab(3)+"}";
         if (j==0){s+=",";}
         s+="\n";
@@ -114,9 +114,9 @@ class YAMS {
     s+="\t\"final_result\": [\n";
     for (int i=0; i<2; i++) {
       s+="\t\t{\n";
-      s+="\t\t\"id_player\" :"+i+1+",\n";
+      s+="\t\t\"id_player\" :"+(i+1)+",\n";
       s+="\t\t\"bonus\" :"+DATA.FinalResults[i].Bonus+",\n";
-      s+="\t\t\"score\" :"+DATA.FinalResults[i].Score+",\n";
+      s+="\t\t\"score\" :"+DATA.FinalResults[i].Score+"\n";
       s+="\t\t}";
       if (i==0){s+=",";}
       s+="\n";
@@ -491,6 +491,6 @@ class YAMS {
     Console.Clear();
 
     TabJ = ResultatFin(TabJ, DATA);
-    Console.WriteLine(DATA.Rounds[12].Results[1].Dice[0]);
+    Ecrire(DATA);
   }
 }
