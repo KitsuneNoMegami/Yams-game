@@ -41,29 +41,14 @@ public struct FinalResult   ////// Structure pour les Résultats globaux //////
     public int IdPlayer;       // L'identifiant du joueur
     public int Bonus;         // Le score du bonus obtenu
     public int Score;         // Le score obtenu a la fin de la partie avec le bonus
-
-    public static string ToString(FinalResult[] FinalResults) {
-      string s="";
-      s=s + "\"final_result\": [\n";
-      for (int p=0; p<2; p++) {
-        s=s + "\t{\n";
-        s=s + "\t\t\"id_player\": "+FinalResults[p].IdPlayer+",\n";
-        s=s + "\t\t\"bonus\": "+FinalResults[p].Bonus+",\n";
-        s=s + "\t\t\"score\": "+FinalResults[p].Score+",\n";
-        if (p==0) {s=s + "\t},\n";}
-        else {s=s + "\t}\n";}
-      }
-      s=s + "]\n";
-      return s;
-    }
 }
 struct Joueur {
-  public int num;
-  public string nom;
-  public int score;
-  public int score_min;
-  public int score_total;
-  public bool[] Challenges;
+  public int num;     //identifiant joueur
+  public string nom;    //pseudo
+  public int score;     //score actuel
+  public int score_min;     //score d'avancement du bonus
+  public int score_total;   //score final (calculé à la fin)
+  public bool[] Challenges;     //stocke les challenges déjà réalisés
 }
 
 
@@ -140,51 +125,35 @@ class YAMS {
 
 
   public static void EnvoieJsonDansAPI() {
-    // On vérifie si l'ordinateur utilise Windows ou un autre système (comme Linux ou Mac).
-    bool isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+    bool isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;    //True si c'est un windows, False si autre
 
     // On prépare une commande pour envoyer un fichier sur un site web et récupérer un identifiant.
-    var processStartInfo = new ProcessStartInfo
-    {
-        // Si on est sur Windows, on utilise "cmd.exe", sinon on utilise "/bin/bash".
-        FileName = isWindows ? "cmd.exe" : "/bin/bash",
+    var processStartInfo = new ProcessStartInfo {
+        FileName = isWindows ? "cmd.exe" : "/bin/bash",     //Utilisation du bash selon l'OS
 
-        // La commande à exécuter dépend du système d'exploitation.
         Arguments = isWindows ? 
             // Commande pour Windows
             "/C curl -s -X POST -F \"file=@partie.json\" http://yams.iutrs.unistra.fr:3000 2>nul && powershell -Command \"(Get-Content response.txt | ForEach-Object { $_.Substring(30, $_.Length - 35) } | Select-Object -Last 5 | Select-Object -First 1)\""
             : 
-            // Commande pour Linux/Mac
+            // Commande pour Autres
             "-c \"curl -s -X POST -F 'file=@partie.json' http://yams.iutrs.unistra.fr:3000 2>/dev/null | tail -n 5 | head -n 1\"",
 
-        // On n'affiche pas de fenêtre ou de terminal pendant que le programme fonctionne.
         UseShellExecute = false,
-        RedirectStandardOutput = true,  // On capture la réponse du programme pour la lire.
+        RedirectStandardOutput = true,  // On récupère la réponse du programme.
         WindowStyle = ProcessWindowStyle.Hidden
     };
 
-    // On lance la commande et on attend qu'elle termine.
-    var process = Process.Start(processStartInfo);
+    var process = Process.Start(processStartInfo);      //Execution commande
 
-    // On récupère tout ce que le programme a écrit comme résultat.
-    string output = process.StandardOutput.ReadToEnd();
+    string output = process.StandardOutput.ReadToEnd();     //Récupération résultat
     process.WaitForExit();
 
-    // On utilise une "règle" (regex) pour trouver un texte précis : "Identifiant de la partie : ..." suivi de lettres et chiffres.
-    var match = Regex.Match(output, @"Identifiant de la partie : ([a-zA-Z0-9]+)");
+    var match = Regex.Match(output, @"Identifiant de la partie : ([a-zA-Z0-9]+)");      //Utilisation regex pour récupérer la ligne avec l'identifiant
 
-    // Si on a trouvé quelque chose qui correspond à la règle :
-    if (match.Success)
-    {
-        // On garde juste l'identifiant, c'est-à-dire les lettres et chiffres après "Identifiant de la partie : ".
-        string cleanResult = match.Groups[1].Value;
-
-        // On montre l'identifiant à l'écran.
-        Console.WriteLine($"Identifiant de la partie : {cleanResult}");
-    }
-    else
-    {
-        // Si on n'a rien trouvé, on le dit à l'utilisateur.
+    if (match.Success) {
+        string cleanResult = match.Groups[1].Value;       //Récupération de l'identifiant uniquement
+        Console.WriteLine($"Identifiant de la partie : {cleanResult}");     //Affiche l'identifiant
+    } else {
         Console.WriteLine("Impossible de trouver l'identifiant.");
     }
   }
@@ -213,7 +182,7 @@ class YAMS {
     return pres;
   }
 
-  public static int[] Trie(int[] T) {     // TRIE tab de 6 entiers
+  public static int[] Trie(int[] T) {     // TRIE tab de 6 entiers (tri par sélection)
     int min;
     for (int i=0; i<5; i++) {
       min = i;
@@ -229,7 +198,7 @@ class YAMS {
     return T;
   }
 
-    // T DOIT ETRE UN TABLEAU TRIE POUR LES TESTS
+    // T DOIT ETRE UN TABLEAU TRIE POUR LES TESTS SUIVANTS
   public static int NbDansTab(int[] T, int n) {     // COMPTE le nombre de n dans tab
     int compt = 0;
     for (int i=0; i<5; i++) {
@@ -303,13 +272,13 @@ class YAMS {
     return somme;
   }
 
-  public static string DejaFait(int ind, Joueur J) {     //teste si le challenge ind est déjà fait
+  public static string DejaFait(int ind, Joueur J) {     //teste si le challenge ind est déjà fait par le joueur J
     if (J.Challenges[ind]==true) {
       return Rouge(" (Challenge déjà réalisé)");
     }
     return "";
   }
-  public static void AfficheChallenges(Joueur J) {
+  public static void AfficheChallenges(Joueur J) {      //AFFICHE la liste des challenges et s'ils sont réalisés (début de tour)
     Console.WriteLine("Liste des challenges : ");
     for (int i=1; i<=6; i++) {
       Console.WriteLine("["+i+"]"+" Nombre de "+i + " (Somme des dés ayant obtenu "+i + ")"+DejaFait(i-1,J));
@@ -323,10 +292,11 @@ class YAMS {
     Console.WriteLine("[12] Yam's (5 dés identique - 50 pts)"+DejaFait(11,J));
     Console.WriteLine("[13] Chance (La somme des dés obtenus)"+DejaFait(12,J));
 
-    Console.WriteLine("\n    Avancement du bonus : "+J.score_min+" sur 63");
+    Console.WriteLine("\n-->  Avancement du bonus : "+J.score_min+" sur 63");
   }
-  public static Joueur ChoixChallenge(Joueur J, int[] T, GameData DATA, int R) {
-    int[] Scores = new int[13] {0,0,0,0,0,0,Brelan(T),Carre(T),Full(T),PetiteSuite(T),GrandeSuite(T),Yams(T),Chance(T)};
+
+  public static Joueur ChoixChallenge(Joueur J, int[] T, GameData DATA, int R) {      //AFFICHE les challenges et demande de choisir lequel réaliser (fin de tour)
+    int[] Scores = new int[13] {0,0,0,0,0,0,Brelan(T),Carre(T),Full(T),PetiteSuite(T),GrandeSuite(T),Yams(T),Chance(T)};      //tab avec tous les scores possibles
     string[] challenges = new string[13] {"nombre1","nombre2","nombre3","nombre4","nombre5","nombre6","brelan","carre","full","petite","grande","yams","chance"};
 
     for (int i=1; i<=6; i++) {
@@ -347,20 +317,20 @@ class YAMS {
     int ch = 0;
     bool valide = false;
     while (valide==false) {
-      if (int.TryParse(Console.ReadLine(), out ch) && 0<ch &&ch<=13 && J.Challenges[ch-1] == false) {
+      if (int.TryParse(Console.ReadLine(), out ch) && 0<ch &&ch<=13 && J.Challenges[ch-1] == false) {     //teste si l'input est valide
         valide=true;
       } else {
         Console.WriteLine(Rouge("Choix incorrect ou challenge déjà réalisé"));
       }
     }
-
+    //Stockage dans la structure data
     DATA.Rounds[R-1].Results[J.num-1].Challenge = challenges[ch-1];
     for (int d=0; d<5; d++) {
       DATA.Rounds[R-1].Results[J.num-1].Dice[d] = T[d];
     }
     DATA.Rounds[R-1].Results[J.num-1].Score = Scores[ch-1];
     
-    J.Challenges[ch-1] = true;
+    J.Challenges[ch-1] = true;        //passe le challenge à "réalisé"
     if (ch<7) {
       J.score_min=J.score_min+ Scores[ch-1];
     }
@@ -382,7 +352,7 @@ class YAMS {
     return Trie(T);
   }
 
-  public static bool[] ChoixRelance() {
+  public static bool[] ChoixRelance() {       //Fonction qui renvoie quels dés l'utillisateur veut relancer (sous forme de tab de bool)
     bool[] Change = new bool[5] {false,false,false,false,false};
     Console.WriteLine("Entrez les numéros de dés que vous voulez relancer (1-5) ou tapez <A> pour annuler vos choix. Pour valider votre sélection, appuyez sur n'importe quelle touche. ");
     int c;
@@ -390,14 +360,14 @@ class YAMS {
     string input;
     while (!fin) {
       input = Console.ReadLine();
-      if (input=="A" || input=="a") {
-        for (int i=0;i<5;i++) {Change[i]=false;}
+      if (input=="A" || input=="a") {          
+        for (int i=0;i<5;i++) {Change[i]=false;}        //Réinitialise le tab pour annuler ses choix de relance
         Console.WriteLine(Rouge("Tous les dés ont été désélectionnés"));
       }
-      else if (int.TryParse(input, out c) && 0<c && c<6) {
+      else if (int.TryParse(input, out c) && 0<c && c<6) {        //Si le nombre est valide on le prend en compte
         Change[c-1] = true;
       } else {
-        fin = true;
+        fin = true;                   //Sinon on considère que l'utilisateur a fait son choix
       }
     }
     return Change;
@@ -405,7 +375,7 @@ class YAMS {
 
 
 
-  public static Joueur[] InitJoueurs() {     // Renvoie un tableau de 2 joueurs
+  public static Joueur[] InitJoueurs() {     //Initialise un tab qui stocke les deux joueurs
     Joueur[] TabJ = new Joueur[2];
     for (int i=1; i<=2; i++) {
       Console.Write("Joueur {0}, entrez votre nom : ",i);
@@ -416,7 +386,7 @@ class YAMS {
       J.score = 0;
       J.score_min = 0;
       J.score_total = 0;
-      J.Challenges = new bool[13] {false,false,false,false,false,false,false,false,false,false,false,false,false};
+      J.Challenges = new bool[13] {false,false,false,false,false,false,false,false,false,false,false,false,false};      //Ses challenges sont par défaut non réalisés
       TabJ[i-1] = J;
     }
     Console.WriteLine("\n");
@@ -424,20 +394,20 @@ class YAMS {
   }
 
 
-  public static Joueur Tour(Joueur J, GameData DATA, int R) {
+  public static Joueur Tour(Joueur J, GameData DATA, int R) {     //Fonction qui execute un tour pour un joueur J et round R
     Console.WriteLine(Vert(J.nom+", c'est votre tour !"));
     bool[] Change = new bool[5] {true,true,true,true,true};
-    int[] T = new int[5];
+    int[] T = new int[5];           //tab qui stocke les 5 dés de lancer
 
     AfficheChallenges(J);
-    for (int i=1;i<4;i++) {
+    for (int i=1;i<4;i++) {         //Boucle pour faire relancer les dés 3 fois
       if (i>1) { 
         Change = ChoixRelance();
         bool valider = true;
         for (int b=0; b<5; b++) {
           if (Change[b] == true) {valider=false;}
         }
-      if (valider == true) {break;}     
+      if (valider == true) {break;}       //Si aucune relance de dés, cela ne sert à rien de continuer 
       }
       Console.WriteLine(Rouge("Lancer n°"+i+" :"));
       T = RelanceDes(T,Change);
@@ -451,7 +421,7 @@ class YAMS {
     return J;
   }
   
-  public static Joueur[] ResultatFin(Joueur[] TabJ, GameData DATA) {
+  public static Joueur[] ResultatFin(Joueur[] TabJ, GameData DATA) {        //Affiche les résultats rapides de fin de partie
       Console.WriteLine(Rouge(" --- PARTIE TERMINEE --- "));
       for (int j = 0; j < 2; j++) {
         TabJ[j].score_total = TabJ[j].score;
@@ -482,7 +452,7 @@ class YAMS {
 
 
 
-  public static GameData InitGameData(Joueur[] TabJ) {
+  public static GameData InitGameData(Joueur[] TabJ) {      //Initialise la structure GAMEDATA
     GameData DATA = new GameData();
     DATA.Parameters = new Parameters();
     Random rand = new Random();
@@ -518,15 +488,6 @@ class YAMS {
   }
 
 
-  public static void CreationJson(GameData DATA) {
-    StreamWriter F = new StreamWriter("data/gamedata.json");
-
-    F.WriteLine("{");
-    F.WriteLine("\tparameters : {");
-
-    F.Close();
-    
-  }
 
 
 
@@ -538,19 +499,21 @@ class YAMS {
 
 
     
-    for (int R=1; R<=13; R++) {
+    for (int R=1; R<=13; R++) {       //Boucle pour faire 13 rounds
       Console.WriteLine(Rouge("\t ROUND "+R));
-      for (int j=0; j<2; j++) {
+      for (int j=0; j<2; j++) {         //Boucle pour faire jouer les 2 joueurs
         TabJ[j] = Tour(TabJ[j], DATA, R);
       }
     }
     Console.Clear();
 
     TabJ = ResultatFin(TabJ, DATA);
-    Ecrire(DATA);
+    Ecrire(DATA);                 //Ecrit le contenu de la structure DATA en fichier json
 
+
+    //Partie pour demander à l'utilisateur la méthode d'envoie du json
     Console.WriteLine("Choisissez la méthode d'envoi des informations de la partie pour accéder aux statistiques détaillées de la partie : ");
-    Console.WriteLine("[1] Méthode automatique (Envoi automatique du fichier vers le serveur)");
+    Console.WriteLine("[1] Métode automatique");
     Console.WriteLine("[2] Méthode manuelle (json à déposer sur http://yams.iutrs.unistra.fr:3000)");
     int rep = 0;
     bool rep_valide = false;
@@ -564,7 +527,7 @@ class YAMS {
     if (rep==1) {
       EnvoieJsonDansAPI();
     } else {
-      Console.WriteLine("Fichier stocker ici : " + Directory.GetCurrentDirectory());
+      Console.WriteLine("Fichier généré dans le même dossier du jeu");
     }
   }
 }
