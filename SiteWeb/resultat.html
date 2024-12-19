@@ -15,7 +15,7 @@
 <body>
     <header id="navbar">
         <div class="navbar-links">
-            <a id="acceuil-a" href="acceuil.html"><em id="green_text"> -- </em><strong>Acceuil</strong><em id="green_text"> -- </em></a>
+            <a id="acceuil-a" href="accueil.html"><em id="green_text"> -- </em><strong>Accueil</strong><em id="green_text"> -- </em></a>
             <a href="telechargement.html"><em id="green_text"> -- </em><strong>Téléchargement</strong><em id="green_text"> -- </em></a>
             <a href="resultat.html"><em id="green_text"> -- </em><strong>Fiche de Résultat</strong><em id="green_text"> -- </em></a>
         </div>
@@ -26,14 +26,14 @@
         <p> </p>
         <form id="formulaireJSON" aria-label="Charger une partie sauvegardée">
             <label for="nomFichier">Nom du fichier JSON :</label>
-            <input type="text" id="nomFichier" placeholder="Identifiant de la partie" onkeypress="VerifEntrer(event)">
-            <button id="charger" type="button" onclick="ChargerDonneeJeu()">Charger</button>
+            <input type="text" id="nomFichier" placeholder="Identifiant de la partie" onkeypress="gererSaisieUtilisateur(event)">
+            <button id="charger" type="button" onclick="chargerDonneesJeu()">Charger</button>
         </form>
 
         <div id="boutonsVue">
-            <button id="btnvueglobale" onclick="AfficherVueGlobale()" class="invisible">Vue Globale</button>
-            <button id="reset" type="button" onclick="ResetJeu()">Reset</button>
-            <button id="btnvuetour" onclick="AfficherVueParTour()" class="invisible">Vue Tour par Tour</button>
+            <button id="btnvueglobale" onclick="afficherVueDensembleDuJeu()" class="invisible">Vue Globale</button>
+            <button id="reset" type="button" onclick="reinitialiserJeu()">Reset</button>
+            <button id="btnvuetour" onclick="afficherVuePourChaqueTourDeJeu()" class="invisible">Vue Tour par Tour</button>
         </div>
     </header>
 
@@ -46,8 +46,8 @@
         <div class="tour-navigation-container">
             <div class="tour-actuel" id="tourActuel"></div>
             <div class="navigation">
-                <button onclick="AfficherTourPrecedent()" data-label="Tour Précédent">⬅️</button>
-                <button onclick="AfficherTourSuivant()" data-label="Tour Suivant">➡️</button>
+                <button onclick="afficherTourPrecedent()" data-label="Tour Précédent">⬅️</button>
+                <button onclick="afficherTourSuivant()" data-label="Tour Suivant">➡️</button>
             </div>
             <div id="scoresJoueurs">
                 <h3>Scores Cumulés</h3>
