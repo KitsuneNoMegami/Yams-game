@@ -4,7 +4,7 @@
     let bonusJoueurs = [0, 0]; // Les bonus des joueurs, initialement à zéro.
     const sequenceCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter']; // Une séquence de touches définie (comme un code secret ou cheat code).
     let entreesUtilisateurActuelles = []; // Une liste qui conserve les touches que le joueur a appuyées pour vérifier la séquence entrée.
-
+    let nomFichier;
     document.addEventListener('wheel', gererEvenementDeDefilement, { passive: false }); // Écoute l'événement de défilement de la page, pour appeler la fonction gererEvenementDeDefilement.
     document.addEventListener("keydown", gererSaisieUtilisateur); // Écoute l'événement de pression d'une touche, pour appeler la fonction gererSaisieUtilisateur.
 
@@ -46,6 +46,7 @@
             afficherTourPrecedent();
         }
     }
+    
 
     function chargerDonneesJeu() {
         // Ajoute la classe 'loading' à tous les éléments de la page pour signaler que le chargement est en cours.
@@ -57,7 +58,7 @@
         
         // Réinitialise les données du jeu pour partir d'un état vide.
         reinitialiserJeu();
-    
+        
         // Initialise un objet vide pour stocker les données du jeu.
         donneesCompletJeu = {
             parameters: {},   // Stocke les paramètres généraux du jeu.
@@ -65,7 +66,7 @@
             rounds: [],       // Stocke les données des tours (rounds).
             final_result: []  // Stocke les résultats finaux.
         };
-    
+        
         /**
          * Fonction utilitaire pour récupérer des données JSON depuis un endpoint spécifique.
          * @param {string} endpoint - Le nom de la ressource à récupérer.
@@ -84,42 +85,42 @@
                     return response.json();
                 });
         }
-    
+        
         // Étape 1 : Récupère les paramètres du jeu.
         recupererDonneesDepuisEndpoint("parameters")
             .then(data => {
                 // Stocke les paramètres récupérés dans l'objet donneesCompletJeu.
                 donneesCompletJeu.parameters = data;
-    
+        
                 // Étape 2 : Récupère les informations des joueurs.
                 return recupererDonneesDepuisEndpoint("players");
             })
             .then(data => {
                 // Stocke les informations des joueurs dans donneesCompletJeu.
                 donneesCompletJeu.players = data;
-    
+        
                 // Étape 3 : Prépare la récupération des données pour les 13 tours (rounds).
                 let roundPromises = [];
-    
+        
                 // Utilise une boucle for pour ajouter une promesse pour chaque tour.
                 for (let i = 0; i < 13; i++) {
                     roundPromises.push(recupererDonneesDepuisEndpoint(`rounds/${i + 1}`)); // Appelle recupererDonneesDepuisEndpoint pour chaque tour (de 1 à 13).
                 }
-    
+        
                 // Attend que toutes les promesses soient résolues (tous les rounds chargés).
                 return Promise.all(roundPromises);
             })
             .then(rounds => {
                 // Stocke les données de chaque tour dans donneesCompletJeu.
                 donneesCompletJeu.rounds = rounds;
-    
+        
                 // Étape 4 : Récupère les résultats finaux du jeu.
                 return recupererDonneesDepuisEndpoint("final-result");
             })
             .then(data => {
                 // Stocke les résultats finaux dans donneesCompletJeu.
                 donneesCompletJeu.final_result = data;
-    
+        
                 // Affiche les boutons de navigation en supprimant la classe 'invisible'.
                 document.getElementById('btnvueglobale').classList.remove("invisible");
                 document.getElementById('btnvuetour').classList.remove("invisible");
@@ -127,7 +128,7 @@
             .catch(error => {
                 // En cas d'erreur pendant le chargement, affiche un message dans la console.
                 console.error("Erreur de chargement des données JSON :", error);
-    
+        
                 // Affiche une alerte à l'utilisateur pour l'informer de l'erreur.
                 alert("Erreur de chargement des données JSON. Vérifiez le nom du fichier et réessayez.");
             })
@@ -138,68 +139,67 @@
     }
     
     function afficherVueDensembleDuJeu() {
-        // Affiche la vue globale du jeu (résumé) et cache la vue par tour.
-        document.getElementById("vueGlobale").style.display = "flex";
-        document.getElementById("vueTour").style.display = "none";
-    
-        const globalSummary = document.getElementById("resumeGlobal");
-        const gameParameters = donneesCompletJeu.parameters;
-    
-        // Crée un tableau HTML pour afficher le résumé du jeu.
-        let tableauHTML = `
-            <h3>Résumé de la partie</h3>
-            <p><strong>Code de Jeu:</strong> ${gameParameters.code}</p>
-            <p><strong>Date:</strong> ${gameParameters.date}</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tour</th>
-                        <th>Joueur 1 (${donneesCompletJeu.players[0].pseudo})</th>
-                        <th>Score</th>
-                        <th>Joueur 2 (${donneesCompletJeu.players[1].pseudo})</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-    
-        // Pour chaque tour du jeu, ajoute une ligne au tableau avec les résultats des joueurs.
-        donneesCompletJeu.rounds.forEach((round, index) => {
-            const joueur1Result = round.results.find(result => result.id_player === donneesCompletJeu.players[0].id);
-            const joueur2Result = round.results.find(result => result.id_player === donneesCompletJeu.players[1].id);
-    
-            tableauHTML += `
-                <tr>
-                    <td>Tour ${index + 1}</td>
-                    <td>${joueur1Result.challenge} : ${joueur1Result.dice.join(", ")}</td>
-                    <td>${joueur1Result.score}</td>
-                    <td>${joueur2Result.challenge} : ${joueur2Result.dice.join(", ")}</td>
-                    <td>${joueur2Result.score}</td>
-                </tr>
+            // Affiche la vue globale du jeu (résumé) et cache la vue par tour.
+            document.getElementById("vueGlobale").style.display = "flex";
+            document.getElementById("vueTour").style.display = "none";
+        
+            const globalSummary = document.getElementById("resumeGlobal");
+            const gameParameters = donneesCompletJeu.parameters;
+        
+            let tableauHTML = `
+                <h3>Résumé de la partie</h3>
+                <p><strong>Code de Jeu:</strong> ${gameParameters.code}</p>
+                <p><strong>Date:</strong> ${gameParameters.date}</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tour</th>
+                            <th>Joueur 1 (${donneesCompletJeu.players[0].pseudo})</th>
+                            <th>Score</th>
+                            <th>Joueur 2 (${donneesCompletJeu.players[1].pseudo})</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
             `;
-        });
-    
-        // Ajoute les résultats finaux des joueurs à la fin du tableau.
-        const joueur1Final = donneesCompletJeu.final_result.find(res => res.id_player === donneesCompletJeu.players[0].id);
-        const joueur2Final = donneesCompletJeu.final_result.find(res => res.id_player === donneesCompletJeu.players[1].id);
-    
-        tableauHTML += `
-                </tbody>
-                <tfoot>
+        
+            // Pour chaque tour du jeu, ajoute une ligne au tableau avec les résultats des joueurs.
+            donneesCompletJeu.rounds.forEach((round, index) => {
+                const joueur1Result = round.results.find(result => result.id_player === donneesCompletJeu.players[0].id);
+                const joueur2Result = round.results.find(result => result.id_player === donneesCompletJeu.players[1].id);
+        
+                tableauHTML += `
                     <tr>
-                        <td>Résultats finaux</td>
-                        <td>Bonus : ${joueur1Final.bonus}</td>
-                        <td>Score total : ${joueur1Final.score}</td>
-                        <td>Bonus : ${joueur2Final.bonus}</td>
-                        <td>Score total : ${joueur2Final.score}</td>
+                        <td>Tour ${index + 1}</td>
+                        <td>${joueur1Result.challenge} : ${joueur1Result.dice.join(", ")}</td>
+                        <td>${joueur1Result.score}</td>
+                        <td>${joueur2Result.challenge} : ${joueur2Result.dice.join(", ")}</td>
+                        <td>${joueur2Result.score}</td>
                     </tr>
-                </tfoot>
-            </table>
-        `;
-    
-        // Met à jour l'affichage du résumé global avec le tableau créé.
-        globalSummary.innerHTML = tableauHTML;
-    }
+                `;
+            });
+        
+            // Ajoute les résultats finaux des joueurs à la fin du tableau.
+            const joueur1Final = donneesCompletJeu.final_result.find(res => res.id_player === donneesCompletJeu.players[0].id);
+            const joueur2Final = donneesCompletJeu.final_result.find(res => res.id_player === donneesCompletJeu.players[1].id);
+        
+            tableauHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Résultats finaux</td>
+                            <td>Bonus : ${joueur1Final.bonus}</td>
+                            <td>Score total : ${joueur1Final.score}</td>
+                            <td>Bonus : ${joueur2Final.bonus}</td>
+                            <td>Score total : ${joueur2Final.score}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            `;
+        
+            // Met à jour l'affichage du résumé global avec le tableau créé.
+            globalSummary.innerHTML = tableauHTML;
+    };
     
     function afficherVuePourChaqueTourDeJeu() {
         // Réinitialise l'index du tour à 0 pour commencer au premier tour.
@@ -257,65 +257,58 @@
     
 
     function afficherTourActuel() {
+    
         // Sélectionne tous les boutons de navigation présents sur la page.
         const navigationButtons = document.querySelectorAll('.navigation button');
-    
+        
         // Si on est déjà au premier tour, désactive le bouton de retour en arrière.
-        // Cela empêche les utilisateurs de naviguer au-delà du premier tour.
         navigationButtons[0].classList.toggle('disabled', indiceDuTourEnCours === 0);
-    
+        
         // Si on est déjà au dernier tour, désactive le bouton de navigation au tour suivant.
-        // Cela empêche les utilisateurs de naviguer au-delà du dernier tour.
         navigationButtons[1].classList.toggle('disabled', indiceDuTourEnCours === donneesCompletJeu.rounds.length - 1);
-    
+        
         // Les joueurs du jeu.
         const joueur1 = donneesCompletJeu.players[0];
         const joueur2 = donneesCompletJeu.players[1];
-    
+        
         // Réinitialisation des scores à chaque tour pour éviter des accumulations erronées.
         scoresTotalDesJoueurs = [0, 0];
-    
+        
         // Calcule les scores cumulés des joueurs jusqu'au tour actuel.
-        // Cette boucle parcourt tous les tours précédents jusqu'au tour actuel.
         for (let i = 0; i <= indiceDuTourEnCours; i++) {
             const turn = donneesCompletJeu.rounds[i];
-    
-            // Trouve les résultats spécifiques pour chaque joueur dans le tour courant.
             const joueur1Result = turn.results.find(result => result.id_player === joueur1.id);
             const joueur2Result = turn.results.find(result => result.id_player === joueur2.id);
-    
-            // Ajoute le score de chaque joueur à leur total respectif.
+        
             scoresTotalDesJoueurs[0] += joueur1Result.score;
             scoresTotalDesJoueurs[1] += joueur2Result.score;
         }
-    
+        
         // Récupération des résultats du tour actuel.
         const currentTurn = donneesCompletJeu.rounds[indiceDuTourEnCours];
         const joueur1Result = currentTurn.results.find(result => result.id_player === joueur1.id);
         const joueur2Result = currentTurn.results.find(result => result.id_player === joueur2.id);
-    
+        
         // Actualisation des images des dés pour chaque joueur.
         actualiserImageResultats(joueur1Result, joueur2Result);
-    
+        
         // Affichage des scores actuels dans l'interface utilisateur.
         document.getElementById("scoreJoueur1").innerHTML = `${joueur1.pseudo} : ${scoresTotalDesJoueurs[0]}`;
         document.getElementById("scoreJoueur2").innerHTML = `${joueur2.pseudo} : ${scoresTotalDesJoueurs[1]}`;
-    
+        
         // Si on est au dernier tour, il est nécessaire de considérer les bonus pour calculer les scores finaux.
         if (indiceDuTourEnCours === donneesCompletJeu.rounds.length - 1) {
-            // Recherche des scores finaux pour chaque joueur, y compris leurs bonus.
             const joueur1FinalResult = donneesCompletJeu.final_result.find(res => res.id_player === joueur1.id);
             const joueur2FinalResult = donneesCompletJeu.final_result.find(res => res.id_player === joueur2.id);
-    
-            // Calcul des scores finaux en tenant compte des bonus.
+        
             const finalScore1 = scoresTotalDesJoueurs[0] + joueur1FinalResult.bonus;
             const finalScore2 = scoresTotalDesJoueurs[1] + joueur2FinalResult.bonus;
-    
-            // Mise à jour des affichages des scores finaux avec les points bonus.
+        
             document.getElementById("scoreJoueur1").innerHTML = `${joueur1.pseudo} : ${finalScore1} pts (dont ${joueur1FinalResult.bonus} pts bonus)`;
             document.getElementById("scoreJoueur2").innerHTML = `${joueur2.pseudo} : ${finalScore2} pts (dont ${joueur2FinalResult.bonus} pts bonus)`;
         }
     }
+    
     
     function afficherTourSuivant() {
         // Vérifie si on n'est pas déjà au dernier tour.
