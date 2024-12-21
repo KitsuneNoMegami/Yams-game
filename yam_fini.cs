@@ -122,56 +122,56 @@ class YAMS {
         f.WriteLine(RenvoieJsonDATA(DATA));
         f.Close();
     }
-}
 
 
-public static void EnvoieJsonDansAPI(string fileName) {
-    // Détermine si le système d'exploitation est Windows (true si Windows, false sinon).
-    bool isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;    
 
-    // Prépare une commande pour envoyer un fichier JSON à un site web via une requête POST et récupérer un identifiant.
-    var processStartInfo = new ProcessStartInfo {
-        // Définit le programme à exécuter : "cmd.exe" pour Windows ou "/bin/bash" pour les autres systèmes.
-        FileName = isWindows ? "cmd.exe" : "/bin/bash",     
+  public static void EnvoieJsonDansAPI(string fileName) {
+      // Détermine si le système d'exploitation est Windows (true si Windows, false sinon).
+      bool isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;    
 
-        // Spécifie les arguments de la commande en fonction de l'OS.
-        Arguments = isWindows ? 
-            // Commande pour Windows
-            $"/C curl -s -X POST -F \"file=@{fileName}.json\" http://yams.iutrs.unistra.fr:3000 2>nul && powershell -Command \"(Get-Content response.txt | ForEach-Object {{ $_.Substring(30, $_.Length - 35) }} | Select-Object -Last 5 | Select-Object -First 1)\""
-            : 
-            // Commande pour les autres systèmes (Linux/Unix/MacOS)
-            $"-c \"curl -s -X POST -F 'file=@{fileName}.json' http://yams.iutrs.unistra.fr:3000 2>/dev/null | tail -n 5 | head -n 1\"",
+      // Prépare une commande pour envoyer un fichier JSON à un site web via une requête POST et récupérer un identifiant.
+      var processStartInfo = new ProcessStartInfo {
+          // Définit le programme à exécuter : "cmd.exe" pour Windows ou "/bin/bash" pour les autres systèmes.
+          FileName = isWindows ? "cmd.exe" : "/bin/bash",     
 
-        // Utilise les arguments en mode shell pour permettre l'exécution des commandes dans le terminal.
-        UseShellExecute = false,
-        // Redirige la sortie standard pour pouvoir lire les données renvoyées par la commande.
-        RedirectStandardOutput = true,
-        // Masque la fenêtre de terminal lors de l'exécution de la commande.
-        WindowStyle = ProcessWindowStyle.Hidden
-    };
+          // Spécifie les arguments de la commande en fonction de l'OS.
+          Arguments = isWindows ? 
+              // Commande pour Windows
+              $"/C curl -s -X POST -F \"file=@{fileName}.json\" http://yams.iutrs.unistra.fr:3000 2>nul && powershell -Command \"(Get-Content response.txt | ForEach-Object {{ $_.Substring(30, $_.Length - 35) }} | Select-Object -Last 5 | Select-Object -First 1)\""
+              : 
+              // Commande pour les autres systèmes (Linux/Unix/MacOS)
+              $"-c \"curl -s -X POST -F 'file=@{fileName}.json' http://yams.iutrs.unistra.fr:3000 2>/dev/null | tail -n 5 | head -n 1\"",
 
-    // Démarre le processus en utilisant les informations configurées dans `processStartInfo`.
-    var process = Process.Start(processStartInfo);      
+          // Utilise les arguments en mode shell pour permettre l'exécution des commandes dans le terminal.
+          UseShellExecute = false,
+          // Redirige la sortie standard pour pouvoir lire les données renvoyées par la commande.
+          RedirectStandardOutput = true,
+          // Masque la fenêtre de terminal lors de l'exécution de la commande.
+          WindowStyle = ProcessWindowStyle.Hidden
+      };
 
-    // Lit tout le contenu de la sortie standard (les données renvoyées par la commande).
-    string output = process.StandardOutput.ReadToEnd();     
+      // Démarre le processus en utilisant les informations configurées dans `processStartInfo`.
+      var process = Process.Start(processStartInfo);      
 
-    // Attend la fin de l'exécution du processus avant de continuer.
-    process.WaitForExit();
+      // Lit tout le contenu de la sortie standard (les données renvoyées par la commande).
+      string output = process.StandardOutput.ReadToEnd();     
 
-    // Utilise une expression régulière pour rechercher une ligne contenant "Identifiant de la partie : [quelque chose]".
-    var match = Regex.Match(output, @"Identifiant de la partie : ([a-zA-Z0-9]+)");      
+      // Attend la fin de l'exécution du processus avant de continuer.
+      process.WaitForExit();
 
-    // Si un résultat correspondant à l'expression régulière est trouvé.
-    if (match.Success) {
-        // Récupère uniquement l'identifiant à partir du groupe capturé dans l'expression régulière.
-        string cleanResult = match.Groups[1].Value;       
-        // Affiche l'identifiant de la partie dans la console.
-        Console.WriteLine($"Identifiant de la partie : {cleanResult}");     
-    } else {
-        // Affiche un message d'erreur si aucun identifiant n'est trouvé dans la sortie.
-        Console.WriteLine("Impossible de trouver l'identifiant.");
-    }
+      // Utilise une expression régulière pour rechercher une ligne contenant "Identifiant de la partie : [quelque chose]".
+      var match = Regex.Match(output, @"Identifiant de la partie : ([a-zA-Z0-9]+)");      
+
+      // Si un résultat correspondant à l'expression régulière est trouvé.
+      if (match.Success) {
+          // Récupère uniquement l'identifiant à partir du groupe capturé dans l'expression régulière.
+          string cleanResult = match.Groups[1].Value;       
+          // Affiche l'identifiant de la partie dans la console.
+          Console.WriteLine($"Identifiant de la partie : {cleanResult}\nVous pouvez dès à présent consulter le déroulement de votre partie sur notre site, dans l'onglet \"Fiche de Résultat\", en utilisant l'identifiant ci-dessus.");     
+      } else {
+          // Affiche un message d'erreur si aucun identifiant n'est trouvé dans la sortie.
+          Console.WriteLine("Impossible de trouver l'identifiant.");
+      }
   } 
 
 
@@ -531,7 +531,7 @@ public static void EnvoieJsonDansAPI(string fileName) {
     //Partie pour demander à l'utilisateur la méthode d'envoie du json
     Console.WriteLine("Choisissez la méthode d'envoi des informations de la partie pour accéder aux statistiques détaillées de la partie : ");
     Console.WriteLine("[1] Métode automatique (Fichier json envoyé automatiquement sur le serveur)");
-    Console.WriteLine("[2] Méthode manuelle (json à déposer sur http://yams.iutrs.unistra.fr:3000)");
+    Console.WriteLine("[2] Méthode manuelle (Fichier json à déposer sur http://yams.iutrs.unistra.fr:3000)");
     int rep = 0;
     bool rep_valide = false;
     while(!rep_valide) {
@@ -547,3 +547,4 @@ public static void EnvoieJsonDansAPI(string fileName) {
       Console.WriteLine($"Fichier généré dans le même dossier du jeu : {Directory.GetCurrentDirectory()}/{DATA.Parameters.Code}.json");
     }
   }
+}
