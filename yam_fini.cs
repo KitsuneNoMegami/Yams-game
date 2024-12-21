@@ -118,45 +118,63 @@ class YAMS {
 
 
   public static void Ecrire(GameData DATA){       //Ecrit la structure DATA en json dans partie.json
-    StreamWriter f= new StreamWriter("partie.json");
-    f.WriteLine(RenvoieJsonDATA(DATA));
-    f.Close();
-  }
+        StreamWriter f = new StreamWriter($"{DATA.Parameters.Code}.json");
+        f.WriteLine(RenvoieJsonDATA(DATA));
+        f.Close();
+    }
+}
 
 
-  public static void EnvoieJsonDansAPI() {
-    bool isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;    //True si c'est un windows, False si autre
+public static void EnvoieJsonDansAPI(string fileName) {
+    // Détermine si le système d'exploitation est Windows (true si Windows, false sinon).
+    bool isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;    
 
-    // On prépare une commande pour envoyer un fichier sur un site web et récupérer un identifiant.
+    // Prépare une commande pour envoyer un fichier JSON à un site web via une requête POST et récupérer un identifiant.
     var processStartInfo = new ProcessStartInfo {
-        FileName = isWindows ? "cmd.exe" : "/bin/bash",     //Utilisation du bash selon l'OS
+        // Définit le programme à exécuter : "cmd.exe" pour Windows ou "/bin/bash" pour les autres systèmes.
+        FileName = isWindows ? "cmd.exe" : "/bin/bash",     
 
+        // Spécifie les arguments de la commande en fonction de l'OS.
         Arguments = isWindows ? 
             // Commande pour Windows
-            "/C curl -s -X POST -F \"file=@partie.json\" http://yams.iutrs.unistra.fr:3000 2>nul && powershell -Command \"(Get-Content response.txt | ForEach-Object { $_.Substring(30, $_.Length - 35) } | Select-Object -Last 5 | Select-Object -First 1)\""
+            $"/C curl -s -X POST -F \"file=@{fileName}.json\" http://yams.iutrs.unistra.fr:3000 2>nul && powershell -Command \"(Get-Content response.txt | ForEach-Object {{ $_.Substring(30, $_.Length - 35) }} | Select-Object -Last 5 | Select-Object -First 1)\""
             : 
-            // Commande pour Autres
-            "-c \"curl -s -X POST -F 'file=@partie.json' http://yams.iutrs.unistra.fr:3000 2>/dev/null | tail -n 5 | head -n 1\"",
+            // Commande pour les autres systèmes (Linux/Unix/MacOS)
+            $"-c \"curl -s -X POST -F 'file=@{fileName}.json' http://yams.iutrs.unistra.fr:3000 2>/dev/null | tail -n 5 | head -n 1\"",
 
+        // Utilise les arguments en mode shell pour permettre l'exécution des commandes dans le terminal.
         UseShellExecute = false,
-        RedirectStandardOutput = true,  // On récupère la réponse du programme.
+        // Redirige la sortie standard pour pouvoir lire les données renvoyées par la commande.
+        RedirectStandardOutput = true,
+        // Masque la fenêtre de terminal lors de l'exécution de la commande.
         WindowStyle = ProcessWindowStyle.Hidden
     };
 
-    var process = Process.Start(processStartInfo);      //Execution commande
+    // Démarre le processus en utilisant les informations configurées dans `processStartInfo`.
+    var process = Process.Start(processStartInfo);      
 
-    string output = process.StandardOutput.ReadToEnd();     //Récupération résultat
+    // Lit tout le contenu de la sortie standard (les données renvoyées par la commande).
+    string output = process.StandardOutput.ReadToEnd();     
+
+    // Attend la fin de l'exécution du processus avant de continuer.
     process.WaitForExit();
 
-    var match = Regex.Match(output, @"Identifiant de la partie : ([a-zA-Z0-9]+)");      //Utilisation regex pour récupérer la ligne avec l'identifiant
+    // Utilise une expression régulière pour rechercher une ligne contenant "Identifiant de la partie : [quelque chose]".
+    var match = Regex.Match(output, @"Identifiant de la partie : ([a-zA-Z0-9]+)");      
 
+    // Si un résultat correspondant à l'expression régulière est trouvé.
     if (match.Success) {
-        string cleanResult = match.Groups[1].Value;       //Récupération de l'identifiant uniquement
-        Console.WriteLine($"Identifiant de la partie : {cleanResult}");     //Affiche l'identifiant
+        // Récupère uniquement l'identifiant à partir du groupe capturé dans l'expression régulière.
+        string cleanResult = match.Groups[1].Value;       
+        // Affiche l'identifiant de la partie dans la console.
+        Console.WriteLine($"Identifiant de la partie : {cleanResult}");     
     } else {
+        // Affiche un message d'erreur si aucun identifiant n'est trouvé dans la sortie.
         Console.WriteLine("Impossible de trouver l'identifiant.");
     }
-  }
+  } 
+
+
 
 
 
@@ -354,13 +372,13 @@ class YAMS {
 
   public static bool[] ChoixRelance() {       //Fonction qui renvoie quels dés l'utillisateur veut relancer (sous forme de tab de bool)
     bool[] Change = new bool[5] {false,false,false,false,false};
-    Console.WriteLine("Entrez les numéros de dés que vous voulez relancer (1-5) ou tapez <A> pour annuler vos choix. Pour valider votre sélection, appuyez sur n'importe quelle touche. ");
+    Console.WriteLine("Entrez un par un les numéros des dés que vous souhaitez relancer (de 1 à 5), en appuyant sur \"Entrer\" après chaque numéro. Une fois vos choix terminés, appuyez sur \"Entrer\" sans rien taper pour les valider. Si vous voulez annuler vos choix, tapez \"A\". Si vous souhaitez conserver tous vos dés tels quels, appuyez directement sur \"Entrer\" sans saisir de numéro.");
     int c;
     bool fin = false;
     string input;
     while (!fin) {
       input = Console.ReadLine();
-      if (input=="A" || input=="a") {          
+      if (input.ToLower() == "a") {          
         for (int i=0;i<5;i++) {Change[i]=false;}        //Réinitialise le tab pour annuler ses choix de relance
         Console.WriteLine(Rouge("Tous les dés ont été désélectionnés"));
       }
@@ -455,8 +473,7 @@ class YAMS {
   public static GameData InitGameData(Joueur[] TabJ) {      //Initialise la structure GAMEDATA
     GameData DATA = new GameData();
     DATA.Parameters = new Parameters();
-    Random rand = new Random();
-    DATA.Parameters.Code = (rand.Next(1,10000)).ToString();
+    DATA.Parameters.Code = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()).ToString();
     DATA.Parameters.Date = DateTime.Now.ToString("yyyy-MM-dd");
     DATA.Players = new Player[2];
     for (int p=0; p<2; p++) {
@@ -513,7 +530,7 @@ class YAMS {
 
     //Partie pour demander à l'utilisateur la méthode d'envoie du json
     Console.WriteLine("Choisissez la méthode d'envoi des informations de la partie pour accéder aux statistiques détaillées de la partie : ");
-    Console.WriteLine("[1] Métode automatique");
+    Console.WriteLine("[1] Métode automatique (Fichier json envoyé automatiquement sur le serveur)");
     Console.WriteLine("[2] Méthode manuelle (json à déposer sur http://yams.iutrs.unistra.fr:3000)");
     int rep = 0;
     bool rep_valide = false;
@@ -525,9 +542,8 @@ class YAMS {
       }
     }
     if (rep==1) {
-      EnvoieJsonDansAPI();
+      EnvoieJsonDansAPI(DATA.Parameters.Code);
     } else {
-      Console.WriteLine("Fichier généré dans le même dossier du jeu");
+      Console.WriteLine($"Fichier généré dans le même dossier du jeu : {Directory.GetCurrentDirectory()}/{DATA.Parameters.Code}.json");
     }
   }
-}
