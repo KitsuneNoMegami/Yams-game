@@ -118,14 +118,14 @@ class YAMS {
 
 
   public static void Ecrire(GameData DATA){       //Ecrit la structure DATA en json dans partie.json
-        StreamWriter f = new StreamWriter($"{DATA.Parameters.Code}.json");
+        StreamWriter f = new StreamWriter(DATA.Parameters.Code+".json");
         f.WriteLine(RenvoieJsonDATA(DATA));
         f.Close();
     }
 
 
 
-  public static void EnvoieJsonDansAPI(string fileName) {
+  public static void EnvoieJsonDansAPI(string fileName) {       //Fonction optionnelle
       // Détermine si le système d'exploitation est Windows (true si Windows, false sinon).
       bool isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;    
 
@@ -178,10 +178,10 @@ class YAMS {
 
 
 
-  public static string Vert(string S) {
+  public static string Vert(string S) {        //Transforme S en vert pour affichage
     return "\u001b[32m" + S + "\u001b[0m";    //32=vert en code ANSI
   }
-  public static string Rouge(string S) {
+  public static string Rouge(string S) {      //Transforme S en rouge pour affichage
     return "\u001b[31m" + S + "\u001b[0m";    //31=rouge en ANSI
   }
 
