@@ -42,6 +42,7 @@ public struct FinalResult   ////// Structure pour les Résultats globaux //////
     public int Bonus;         // Le score du bonus obtenu
     public int Score;         // Le score obtenu a la fin de la partie avec le bonus
 }
+
 struct Joueur {
   public int num;     //identifiant joueur
   public string nom;    //pseudo
@@ -379,7 +380,7 @@ public static bool[] ChoixRelance() {       //Fonction qui renvoie quels dés l'
     }
     return Change;
   }
-  
+
   public static int[] RelanceDes(int[] T, bool[] Change) {     //Lance certains dés en fonction de sa correspondance dans Change (si true)
     Random random = new Random();
     for (int i=0; i<5; i++) {
