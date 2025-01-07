@@ -200,7 +200,7 @@ class YAMS {
     return pres;
   }
 
-  public static int[] Trie(int[] T) {     // TRIE tab de 6 entiers (tri par sélection)
+  public static int[] Trie(int[] T) {     // TRIE tab de 5 entiers (tri par sélection)
     int min;
     for (int i=0; i<5; i++) {
       min = i;
