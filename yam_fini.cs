@@ -359,18 +359,7 @@ class YAMS {
 
 
 
-
-  public static int[] RelanceDes(int[] T, bool[] Change) {     //Lance certains dés en fonction de sa correspondance dans Change (si true)
-    Random random = new Random();
-    for (int i=0; i<5; i++) {
-      if (Change[i]) {
-        T[i] = random.Next(1,7);
-      }
-    }
-    return Trie(T);
-  }
-
-  public static bool[] ChoixRelance() {       //Fonction qui renvoie quels dés l'utillisateur veut relancer (sous forme de tab de bool)
+public static bool[] ChoixRelance() {       //Fonction qui renvoie quels dés l'utillisateur veut relancer (sous forme de tab de bool)
     bool[] Change = new bool[5] {false,false,false,false,false};
     Console.WriteLine("Entrez un par un les numéros des dés que vous souhaitez relancer (de 1 à 5), en appuyant sur \"Entrer\" après chaque numéro. Une fois vos choix terminés, appuyez sur \"Entrer\" sans rien taper pour les valider. Si vous voulez annuler vos choix, tapez \"A\". Si vous souhaitez conserver tous vos dés tels quels, appuyez directement sur \"Entrer\" sans saisir de numéro.");
     int c;
@@ -390,6 +379,17 @@ class YAMS {
     }
     return Change;
   }
+  
+  public static int[] RelanceDes(int[] T, bool[] Change) {     //Lance certains dés en fonction de sa correspondance dans Change (si true)
+    Random random = new Random();
+    for (int i=0; i<5; i++) {
+      if (Change[i]) {
+        T[i] = random.Next(1,7);
+      }
+    }
+    return Trie(T);
+  }
+
 
 
 
