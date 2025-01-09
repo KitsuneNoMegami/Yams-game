@@ -210,7 +210,7 @@ class YAMS {
     return T;
   }
 
-    // T DOIT ETRE UN TABLEAU TRIE POUR LES TESTS SUIVANTS
+    // T EST CONSIDÉRÉ COMME TRIÉ POUR LES TESTS SUIVANTS
   public static int NbDansTab(int[] T, int n) {     // COMPTE le nombre de n dans tab
     int compt = 0;
     for (int i=0; i<5; i++) {
