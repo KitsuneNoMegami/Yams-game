@@ -193,13 +193,6 @@ class YAMS {
     Console.WriteLine();
   }
 
-  public static bool Present(int[] T, int n) {    //TESTE si n est dans tab
-    bool pres=false;
-    for (int i=0; i<5 && pres==false; i++) {
-      if (T[i]==n) {pres=true;}
-    }
-    return pres;
-  }
 
   public static int[] Trie(int[] T) {     // TRIE tab de 5 entiers (tri par sélection)
     int min;
@@ -259,7 +252,7 @@ class YAMS {
     for (int j=1; j<4 && suite==false; j++) {
       suite = true;
       for (int i=j; i<j+4; i++) {
-        if (Present(T,i)==false) {suite=false;}
+        if (NbDansTab(T,i)==0) {suite=false;}
       }
     }
     if (suite) {score=30;}
@@ -271,7 +264,7 @@ class YAMS {
     for (int j=1; j<3 && suite==false; j++) {
       suite = true;
       for (int i=j; i<j+5; i++) {
-        if (Present(T,i)==false) {suite=false;}
+        if (NbDansTab(T,i)==0) {suite=false;}
       }
     }
     if (suite) {score=40;}
