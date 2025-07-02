@@ -28,26 +28,21 @@ Yams is a popular dice game where players roll five dice to make specific combin
 - [Node.js](https://nodejs.org/) (if using build tools or npm packages)
 - [.NET SDK](https://dotnet.microsoft.com/download) (if applicable)
 
-### Running the Project
+## How to play
 
-1. **Clone the repository:**
-   ```bash
+1. Clone the repo:
+   ```
    git clone https://github.com/KitsuneNoMegami/Yams-game.git
    cd Yams-game
    ```
-
-2. **If using .NET backend:**
-   ```bash
+2. Console version (with .NET SDK):
+   ```
    dotnet run
    ```
-   Then open your browser and go to `http://localhost:5000`
+   Then open your browser at `http://localhost:5000`
 
-3. **If running as static site:**
-   - Simply open `index.html` in your browser, or
-   - Use a simple HTTP server:
-     ```bash
-     npx serve .
-     ```
+3. Web version:
+   - Open `index.html` in your browser
 
 ## Game Rules
 
