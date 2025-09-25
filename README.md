@@ -37,7 +37,7 @@ Yams is a popular dice game where players roll five dice to make specific combin
    ```
 2. Console version (with .NET SDK):
    ```
-   dotnet run
+   mcs yam_fini.exe
    ```
    Then open your browser at `http://localhost:5000`
 
